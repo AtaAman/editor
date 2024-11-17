@@ -5,8 +5,30 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+    },
   },
-  plugins: [],
+  plugins: [
+    require('daisyui'),
+    require('@tailwindcss/forms'),
+  ],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          "primary": "#1fbfb3",
+          "secondary": "#d46b02",
+          "accent": "#6612db",
+          "neutral": "#db0f53",
+          "base-100": "#ffffff",
+        },
+      },
+    ],
+    dark:"mytheme"
+  },
 }
 

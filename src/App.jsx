@@ -1,16 +1,16 @@
-
-import GrapesEditor from './Editor';
-import './App.css';
-import ProposalChart from './chart.jsx';
-// import DemoTemplate from './DemoTemplate.jsx';
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <div className="flex flex-col justify-between h-screen">
-      <GrapesEditor />
-      <ProposalChart/>
-      {/* <DemoTemplate/> */}
-    </div>
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
   );
 }
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
@@ -50,7 +52,7 @@ const ProposalChart = () => {
       const chartInstance = chartRef.current;
       const image = chartInstance.toBase64Image();
 
-      const response = await fetch('http://localhost:8001/api/upload-chart-image', {
+      const response = await fetch('http://localhost:8000/api/upload-chart-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
