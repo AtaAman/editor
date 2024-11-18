@@ -12,23 +12,23 @@ export default {
       },
     },
   },
-  plugins: [
-    require('daisyui'),
-    require('@tailwindcss/forms'),
-  ],
-  daisyui: {
-    themes: [
-      {
-        mytheme: {
-          "primary": "#1fbfb3",
-          "secondary": "#d46b02",
-          "accent": "#6612db",
-          "neutral": "#db0f53",
-          "base-100": "#ffffff",
-        },
-      },
-    ],
-    dark:"mytheme"
-  },
+  // plugins: [
+  //   require('daisyui'),
+  //   require('@tailwindcss/forms'),
+  // ],
+  // daisyui: {
+  //   themes: [
+  //     {
+  //       mytheme: {
+  //         "primary": "#1fbfb3",
+  //         "secondary": "#d46b02",
+  //         "accent": "#6612db",
+  //         "neutral": "#db0f53",
+  //         "base-100": "#ffffff",
+  //       },
+  //     },
+  //   ],
+  //   dark:"mytheme"
+  // },
 }
 

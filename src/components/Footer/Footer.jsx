@@ -12,14 +12,14 @@ import {
   faTasks,
   faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom"; // Using React Router Link
+import { Link } from "react-router-dom"; 
 
 function Footer() {
   return (
-    <footer className="footer bg-primary text-white p-16 flex flex-col lg:flex-row justify-between items-center space-y-0 lg:space-y-4 lg:space-x-6">
+    <footer className="footer bg-yellow-300 p-16 flex flex-col lg:flex-row justify-between items-center space-y-0 lg:space-y-4 lg:space-x-6">
       <div className="flex flex-col lg:flex-row items-center justify-center lg:space-x-8 lg:flex-1 mb-6 lg:mb-0 text-center lg:text-left">
         <div className="mr-0 lg:mr-4 mb-4 lg:mb-0">
-          <img src="/logo.png" height="64" width="64" alt="Dark Mode Logo" /> {/* Replaced Image with <img> */}
+          <img src="/logo2.png" height="64" width="64" alt="Dark Mode Logo" /> {/* Replaced Image with <img> */}
         </div>
         <nav className="flex flex-col lg:flex-row lg:flex-1 gap-5 lg:gap-16">
           <div className="flex gap-3 flex-col">

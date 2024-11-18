@@ -11,9 +11,14 @@ function Project() {
   const [selectedProposal, setSelectedProposal] = useState("");
   const [previewContent, setPreviewContent] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = () => {
+    setIsLoading(true);
     const queryString = new URLSearchParams(formData).toString();
-    navigate(`/proposal?${queryString}`);
+    setTimeout(() => {
+      navigate(`/proposal?${queryString}`);
+      setIsLoading(false);
+    }, 1000);
   };
   const [formData, setFormData] = useState({
     RefrenceNo: "",
@@ -62,6 +67,7 @@ function Project() {
   };
 
   const handlePreview = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(`
         http://localhost:8000/api/v1/proposal/get-html/${selectedProposal}`);
@@ -75,7 +81,7 @@ function Project() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(proposal.data.content, "text/html");
         Object.entries(formData).forEach(([key, value]) => {
-          const elements = doc.querySelectorAll(`.${key}`); 
+          const elements = doc.querySelectorAll(`.${key}`);
           elements.forEach((element) => {
             if (element.tagName === "IMG") {
               element.src = value;
@@ -92,44 +98,39 @@ function Project() {
       }
     } catch (error) {
       console.error("Error fetching proposal content:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   const handleDownloadPDFFromPreview = async () => {
     if (!previewContent) return;
-
-    // Parse the preview content
     const parser = new DOMParser();
     const doc = parser.parseFromString(previewContent, "text/html");
-
-    // Log all images to ensure they're present in the DOM
     const images = Array.from(doc.querySelectorAll("img"));
     images.forEach((img) => {
       console.log(`Image src: ${img.src}, Loaded: ${img.complete}`);
     });
-
-    // Add specific styles for the chart image
     const inlineStyle = `
       <style>
         .chartImage {
           justify-content: center;
-          width: 600px; /* Fixed width for the chart */
-          height: 300px; /* Fixed height for the chart */
+          width: 600px; 
+          height: 300px; 
           display: block;
-          margin: 0 auto; /* Center the chart */
-          border: 2px solid #ccc; /* Optional: Add border */
-          padding: 5px; /* Optional: Add padding */
-          background-color: #f9f9f9; /* Optional: Add background */
+          margin: 0 auto; 
+          border: 2px solid #ccc; 
+          padding: 5px; 
+          background-color: #f9f9f9;
         }
       </style>
     `;
 
-    // Add the specific chart styles to the head
     const head = doc.querySelector("head");
     const styleElement = document.createElement("style");
     styleElement.innerHTML = inlineStyle;
     head.appendChild(styleElement);
 
-    // Ensure all images are fully loaded before proceeding
     await Promise.all(
       images.map(
         (img) =>
@@ -138,43 +139,41 @@ function Project() {
               resolve();
             } else {
               img.onload = resolve;
-              img.onerror = resolve; // Handle load errors gracefully
+              img.onerror = resolve;
             }
           })
       )
     );
 
-    // Ensure that dynamically created images, like charts, are properly encoded in Base64
     const chartBase64 = generateChartBase64();
     if (chartBase64) {
-      // Find the chart image in the DOM and update its source with Base64 if necessary
       const chartImage = doc.querySelector(".chartImage");
       if (chartImage) {
-        chartImage.src = chartBase64; // Update the chart image src with the Base64 encoded image
+        chartImage.src = chartBase64;
       }
     }
-
-    // Debug: Log the final HTML being passed to html2pdf
     console.log("Final HTML for PDF:", doc.documentElement.outerHTML);
-
-    // Set options for html2pdf
     const opt = {
       margin: 0,
-      filename: "preview-template.pdf",
+      filename: "proposal.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
     };
-
-    // Generate and download the PDF
-    html2pdf().from(doc.documentElement.outerHTML).set(opt).save();
+    setIsLoading(true);
+    try {
+      html2pdf().from(doc.documentElement.outerHTML).set(opt).save();
+    } catch (error) {
+      console.error("Error during PDF generation:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  // Example for generating Base64 image of the chart
   const generateChartBase64 = () => {
     const chartCanvas = document.getElementById("chartCanvas");
     if (chartCanvas) {
-      const base64Image = chartCanvas.toDataURL("image/png"); // Convert chart to Base64
+      const base64Image = chartCanvas.toDataURL("image/png");
       console.log("Generated Base64 Image:", base64Image);
       return base64Image;
     } else {
@@ -212,7 +211,7 @@ function Project() {
   }, []);
 
   return (
-    <div className="relative h-screen flex justify-center items-strat py-20 bg-gray-50">
+    <div className="relative h-screen flex justify-center items-start py-20 bg-gray-50">
       <section className="px-6 lg:px-24">
         <div>
           <h3 className="text-base sm:text-lg font-semibold text-secondary my-4">
@@ -338,19 +337,26 @@ function Project() {
 
           <button
             onClick={handlePreview}
-            className="mt-5 bg-blue-300 text-white rounded px-4 py-2"
+            className="mt-5 bg-blue-600 text-white rounded px-4 py-2"
           >
-            Proposal
+            {isLoading ? "Loading..." : "Proposal"}
           </button>
 
           <button
             onClick={handleSubmit}
-            className="mt-5 ml-5 bg-blue-300 text-white rounded px-4 py-2"
+            className="mt-5 ml-5 bg-blue-600 text-white rounded px-4 py-2"
           >
-            Editor
+            {isLoading ? "Loading..." : "Editor"}
           </button>
         </div>
       )}
+
+      {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="spinner border-t-4 border-blue-600 border-solid rounded-full w-16 h-16 animate-spin"></div>
+        </div>
+      )}
+
       {showPreview && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center">
           <div className="bg-white p-6 w-[90vw] rounded-md h-[90vh] overflow-y-auto">
@@ -364,13 +370,13 @@ function Project() {
               onClick={handleDownloadPDFFromPreview}
               className="absolute top-14 right-4 bg-blue-500 text-white rounded-full px-4 py-2"
             >
-              Download
+              {isLoading ? "Loading..." : "Download"}
             </button>
             <h2 className="text-xl font-bold mb-4">Preview</h2>
             <div
               dangerouslySetInnerHTML={{ __html: previewContent }}
               className="bg-white shadow p-4 rounded-lg"
-            ></div>
+            />
           </div>
         </div>
       )}

@@ -12,8 +12,12 @@ const TemplateEditor = () => {
   const [selectedProposal, setSelectedProposal] = useState("");
   const [previewContent, setPreviewContent] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+  const [isFormVisible, setFormVisible] = useState(false);
+  const [proposalName, setProposalName] = useState("");
+  const [message, setMessage] = useState("");
 
   const [variables, setVariables] = useState({
     RefrenceNo: params.get("RefrenceNo"),
@@ -45,17 +49,399 @@ const TemplateEditor = () => {
       const editor = editorInstance.current;
       const blockManager = editor.BlockManager;
 
-      blockManager.add("full-container-a4", {
-        label: "Full Container with A4",
+      blockManager.add("full-container-body", {
+        label: "body",
         content: `
-        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f7fafc;">
-        <div style="width: 210mm; height: 297mm; background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;"></div>
-        </div>
+           <div style="width: 100%; height: 100%; display: flex; align-items: center; flex-direction: column; justify-content: center; background-color: #b1fcf6;">
+           <div style="width: 210mm; height: 297mm; background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;"></div>
+           </div>
         `,
         category: "Custom Blocks",
       });
+
+      blockManager.add("full-container-a4", {
+        label: "A4 page",
+        content: `
+           <div style="width: 210mm; height: 297mm; background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;"></div>
+        `,
+        category: "Custom Blocks",
+      });
+
+      blockManager.add("full-container-customer-details", {
+        label: "Customer and Company",
+        content: `
+          <div style="width: 450px; height: 500px; margin-top: 60%; margin-left: 10%; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+            <div style="margin-bottom: 2px;">
+              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <p style="margin: 0;">Ref No:</p>&nbsp;<span class="RefrenceNo">S102</span>
+              </div>
+              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <p style="margin: 0;">Date:</p>&nbsp;<span class="Date">10-12-2024</span>
+              </div>
+            </div>
+            <div>
+              <div style="font-size: 28px; color: #e63946; font-weight: 600; display: flex; align-items: center;">
+                <p class="Size" style="margin: 0;">10</p>&nbsp;<span>Kw</span>
+              </div>
+              <h1 style="font-size: 28px; color: #e63946; font-weight: 600; margin-bottom: 2px;">
+                Solar Proposal
+              </h1>
+            </div>
+
+            <div style="margin-bottom: 2px;">
+              <h2 style="font-size: 18px; font-weight: 600;">Prepared For:</h2>
+              <div style="font-size: 15px;  display: flex; align-items: center;">
+                <span class="CustomerName">John Deo</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px; display: flex; align-items: center;">
+                <span class="CustomerPhone">8967328873</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px;  display: flex; align-items: center;">
+                <span class="CustomerCity">Jamia Nagar, Okhla, New Delhi, 110025</span>&nbsp;
+                <p style="margin: 0;">.</p>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 2px;">
+              <h2 style="font-size: 18px; font-weight: 600;">Prepared By:</h2>
+              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyPoc">Steve</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px; display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyName">Lead2solar</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyPhone">9964537294</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px;  display: flex; align-items: center;">
+                <span class="CompanyAddress">Prabhu Kripa, Tilak Rd., Rajawadi, Ghatkoper (east) · Mumbai · Maharashtra, 400077</span>&nbsp;
+                <p style="margin: 0;">.</p>
+              </div>
+            </div>
+          </div>
+        `,
+
+        category: "Custom Blocks",
+      });
+
+      blockManager.add("full-container-application-details", {
+        label: "Application",
+        content: `
+          <div style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: center;">
+            <div style="width: 100%; padding: 16px 0;">
+              <h1 style="text-decoration: underline; color: #e63946; font-weight: bold; font-size: 24px;">
+                Welcome
+              </h1>
+            </div>
+
+            <div style="display: flex; width: 100%; justify-content: space-between;">
+              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <p style="margin: 0;">Offer No:</p>&nbsp;
+                <span class="RefrenceNo">S102</span>
+              </div>
+              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <p style="margin: 0;">Date:</p>&nbsp;<span class="Date">10-12-2024</span>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; justify-content: space-between;">
+              <p style="margin: 0;">To,</p>
+              <div style="font-size: 15px;  display: flex; align-items: center;">
+                <span class="CustomerName">John Deo</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px;  display: flex; align-items: center;">
+                <span class="CustomerCity">Jamia Nagar, Okhla, New Delhi, 110025</span>&nbsp;
+                <p style="margin: 0;">.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; justify-content: space-center;">
+              <p style="margin: 0;">
+                Sub:
+                <span style="text-decoration: underline;">
+                  Proposal for Supply & Installation of
+                  <span style="color: #e63946; font-weight: 600; display: inline-flex; align-items: end;">
+                    <span class="Size" style="margin: 0;">10</span>&nbsp;
+                    <span>Kw</span>
+                  </span>
+                  Grid Connected Solar PV Power Plant.
+                </span>
+              </p>
+            </div>
+
+            <div>
+              <p style="margin: 0;">
+                With reference to the above-mentioned subject, we are very much
+                thankful to you for showing your interest in our service. Based
+                on the information provided by you, we are pleased to quote our
+                offer for the supply & installation of a Grid Connected Solar PV
+                Power Plant.
+              </p>
+            </div>
+
+            <div>
+              <p style="margin: 0;">
+                Inter-connected with the electric utility grid or the meters,
+                these systems are also called ‘Grid-Tie Systems’. The DC power
+                is converted into AC power by an inverter. These systems allow
+                users to mobilize the energy provided by the Sun and feed the
+                leftovers to the grid, which helps in cutting down costs. During
+                the evening or in the absence of sunlight, power can be drawn
+                from the grid, thus eliminating the need for battery banks.
+              </p>
+            </div>
+
+            <div>
+              <p style="font-weight: bold; margin: 0;">The benefits include:</p>
+              <div style="padding: 20px; margin-top: 8px;">
+                <div style="display: flex; align-items: center;">
+                  <span>&#8711;</span>&nbsp;
+                  <p style="margin: 0;">
+                    Limitless power supply which is free of cost.
+                  </p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#8711;</span>&nbsp;
+                  <p style="margin: 0;">
+                    Net metering in ‘Grid-Tie Systems’ helps in calculating
+                    exported surplus power to the grid, which contributes to a
+                    reduction in your electricity bill.
+                  </p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#8711;</span>&nbsp;
+                  <p style="margin: 0;">
+                    It is easy to maintain and low on operation investments.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <p style="margin: 0;">Thanks & Regards,</p>
+            </div>
+
+            <div>
+              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyPoc">Steve</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px; display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyName">Lead2solar</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyPhone">9834638476</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+            </div>
+          </div>
+        `,
+
+        category: "Custom Blocks",
+      });
+
+      blockManager.add("full-container-whychooseus", {
+        label: "why choose us",
+        content: `
+          <div style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: center;">
+            <div style="width: 100%; padding: 16px 0;">
+              <h1 style="text-align: start; text-decoration: underline;  color: #e63946; font-weight: bold; font-size: 24px;">
+                On Grid Solar PV Systems
+              </h1>
+              <p style="text-align: start; text-decoration: underline;  color: #e63946; margin: 0; font-weight: bold;">
+                (Diagram for reference)
+              </p>
+            </div>
+
+            <div style="text-align: center; margin: 16px 0;">
+              <img
+                src="/whychooseus.jpg"
+                alt="On Grid Solar PV Diagram"
+                style="width: 100%; height: 300px;"
+              />
+            </div>
+
+            <div>
+              <h2 style="color: #000; font-size: 18px; margin-bottom: 8px; display: flex; align-items: center;">
+                Why <span class="CompanyName" style="font-size: 18px; font-weight: bold; margin-left: 0.5rem;">M/S SAI KRIPA ENTERPRISE</span> !!
+              </h2>
+              <ul style="margin: 0; padding-left: 20px; color: #333; font-size: 16px; line-height: 1.5;">
+                <li>We are MNRE approved EPC Vendor.</li>
+                <li>
+                  We are authorized by MGVCL, PGVCL, DGVCL, UGVCL, GEDA, Torrent Power,
+                  GUVNL, etc.
+                </li>
+                <li>
+                  Zero maintenance cost with savings on your Electricity Bill &
+                  Environment.
+                </li>
+                <li>
+                  Vast area covers in Vadodara, Dahod, Panchmahal & Chhotaudepur for Solar
+                  system work with so many happy & satisfied clients.
+                </li>
+                <li>
+                  Transparent business with Quick & Reliable Installation.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">
+                Solar Components:
+              </h2>
+              <ul style="margin: 0; padding-left: 20px;">
+                <li>Solar Panels.</li>
+                <li>Solar Inverter.</li>
+                <li>ACDB & DCDB Box.</li>
+                <li>
+                  Solar Panels Mounting Structure with structure accessories.
+                </li>
+                <li>AC & DC Cables.</li>
+                <li>Earthing Kit with chemical bag.</li>
+                <li>Lightning Arrestor (LA).</li>
+              </ul>
+            </div>
+          </div>
+        `,
+
+        category: "Custom Blocks",
+      });
+
+      blockManager.add("full-container-Timeline", {
+        label: "Project timeline",
+        content: `
+        <div 
+        style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: center;"
+      >
+        <div style="width: 100%; padding: 16px 0;">
+          <h1 style="text-align: start; text-decoration: underline; color: #e63946; font-weight: bold; font-size: 24px;">Project Timeline</h1>
+        </div>
+        <div style="text-align: center; margin: 16px 0;">
+          <img src="/timeline.png" alt="Project Timeline Diagram" style="width: 100%; height: 300px;" />
+        </div>
+        <div>
+          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">Scope of Work</h2>
+          <ul style="display: flex; flex-direction: column; justify-content: space-between; height:360px;    margin: 0; padding-left: 20px;">
+            <div>
+            <li><strong>Our Scope:</strong></li>
+              <ul>
+                <li>Online registration process & submission of documents in MGVCL.</li>
+                <li>Collection of payments.</li>
+                <li>Installation of Solar System.</li>
+              </ul>
+            </div>
+           <div>
+            <li><strong>Customer Scope:</strong></li>
+            <ul>
+              <li>Providing safe storage for materials during installation.</li>
+              <li>Approval of structure at the time of order.</li>
+              <li>Installation of ELCB / RCCB / MCB.</li>
+            </ul>
+           </div>
+           <div>
+            <li><strong>MGVCL & MNRE Scope:</strong></li>
+            <ul>
+              <li>Approval for installing the solar system at the customer's place.</li>
+              <li>Subsidy amount deposited in the customer's bank account.</li>
+            </ul>
+           </div>
+          </ul>
+        </div>
+      </div>
+`      
+        ,
+
+        category: "Custom Blocks",
+      });
+
+      blockManager.add("full-container-TandC", {
+        label: "Terms and Conditions",
+        content: `
+        <div
+        style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: start; margin-top:56px"
+      >
+        <div style="width: 100%; padding: 16px 0;">
+          <h1 style="text-align: start; text-decoration:underline; color: #e63946; font-weight: bold; font-size: 24px;">General Terms & Conditions</h1>
+        </div>
+      
+        <div>
+          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">General Terms</h2>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li>All materials supplied are subject to availability and final confirmation.</li>
+            <li>Delivery dates are estimated and subject to unavoidable delays such as natural calamities, government restrictions, or logistic challenges.</li>
+            <li>Installation of the solar system will follow the schedule mutually agreed upon with the customer.</li>
+            <li>Payment terms must be followed strictly. Non-compliance may delay project execution.</li>
+            <li>Customer is responsible for any modifications or additional work requested during or after installation.</li>
+          </ul>
+        </div>
+      
+        <div>
+          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">Scope of Responsibilities</h2>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>Company:</strong> The company will ensure quality installation and adhere to all MNRE and local authority standards.</li>
+            <li><strong>Customer:</strong> The customer is responsible for providing safe storage for materials and access to the installation site.</li>
+            <li><strong>Government:</strong> Subsidy approval and disbursement are subject to MNRE and MGVCL processes. Delays, if any, are beyond the company’s control.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">Important Notices</h2>
+          <ul style="margin: 0; padding-left: 20px;">
+            <li>The company is not liable for damages caused by natural calamities or external factors beyond control.</li>
+            <li>All government policies and regulations are subject to immediate implementation upon official announcements.</li>
+            <li>Warranty claims are valid only if the terms of use are adhered to and approved by the company’s support team.</li>
+            <li>Subsidy benefits are governed by MNRE rules, and disputes must be addressed with the respective authorities.</li>
+          </ul>
+        </div>
+      </div>
+        `,
+
+        category: "Custom Blocks",
+      });
+
+      blockManager.add("full-container-thankyou", {
+        label: "Thank You",
+        content: `
+          <div style="width: 450px; height: 500px; margin-top: 60%; margin-left: 10%; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
+            <div>
+              <h1 style="font-size: 40px; color: #e63946; font-weight: 600; margin-bottom: 2px;">
+                Thank You!
+              </h1>
+            </div>
+            <div style="margin-bottom: 2px;">
+              <h2 style="font-size: 22px; font-weight: 600;">For Further Inquiries Connect with us at:</h2>
+              <div style="font-size: 15px;  display: flex; align-items: center;">
+                <span class="CompanyAddress">Prabhu Kripa, Tilak Rd., Rajawadi, Ghatkoper (east) · Mumbai · Maharashtra, 400077</span>&nbsp;
+                <p style="margin: 0;">.</p>
+              </div>
+              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyPhone">9964537294</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyMail">lead2solar@gmail.com</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+              <div style="font-size: 15px; display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <span class="CompanyGST">GSTN2785GDJGUR6</span>&nbsp;
+                <p style="margin: 0;">,</p>
+              </div>
+            </div>
+          </div>
+        `,
+
+        category: "Custom Blocks",
+      });
+
       blockManager.add("full-container-image", {
-        label: "Full Container for chart",
+        label: "ChartImage",
         content: `
           <div style="width: 40%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #f7fafc;">
             <div style="background-color: white; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;">
@@ -65,8 +451,38 @@ const TemplateEditor = () => {
         `,
         category: "Custom Blocks",
       });
+
+      editor.on("component:update", () => {
+        const htmlContent = editor.getHtml();
+        const cssContent = editor.getCss();
+        localStorage.setItem(
+          "editorContent",
+          JSON.stringify({ html: htmlContent, css: cssContent })
+        );
+      });
     }
   }, []);
+
+  useEffect(() => {
+    const savedContent = localStorage.getItem("editorContent");
+    if (savedContent && editorInstance.current) {
+      const { html, css } = JSON.parse(savedContent);
+      editorInstance.current.setComponents(html);
+      editorInstance.current.setStyle(css);
+    }
+  }, []);
+
+  const handleSaveContent = () => {
+    if (editorInstance.current) {
+      const htmlContent = editorInstance.current.getHtml();
+      const cssContent = editorInstance.current.getCss();
+      localStorage.setItem(
+        "editorContent",
+        JSON.stringify({ html: htmlContent, css: cssContent })
+      );
+      alert("Content saved!");
+    }
+  };
 
   const handleDownloadPDFFromEditor = async () => {
     if (!editorInstance.current) return;
@@ -76,13 +492,13 @@ const TemplateEditor = () => {
       <style>
         .chartImage {
           justify-content: center;
-          width: 600px; /* Fixed width for the chart */
-          height: 300px; /* Fixed height for the chart */
+          width: 600px; 
+          height: 300px; 
           display: block;
-          margin: 0 auto; /* Center the chart */
-          border: 2px solid #ccc; /* Optional: Add border */
-          padding: 5px; /* Optional: Add padding */
-          background-color: #f9f9f9; /* Optional: Add background */
+          margin: 0 auto;
+          border: 2px solid #ccc; 
+          padding: 5px; 
+          background-color: #f9f9f9;
         }
       </style>
     `;
@@ -114,7 +530,7 @@ const TemplateEditor = () => {
     );
     const opt = {
       margin: 0,
-      filename: "editor-template.pdf",
+      filename: "proposal.pdf",
       image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
       jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
@@ -124,40 +540,34 @@ const TemplateEditor = () => {
 
   const handleDownloadPDFFromPreview = async () => {
     if (!previewContent) return;
-
-    // Parse the preview content
     const parser = new DOMParser();
     const doc = parser.parseFromString(previewContent, "text/html");
 
-    // Log all images to ensure they're present in the DOM
     const images = Array.from(doc.querySelectorAll("img"));
     images.forEach((img) => {
       console.log(`Image src: ${img.src}, Loaded: ${img.complete}`);
     });
 
-    // Add specific styles for the chart image
     const inlineStyle = `
       <style>
         .chartImage {
           justify-content: center;
-          width: 600px; /* Fixed width for the chart */
-          height: 300px; /* Fixed height for the chart */
+          width: 600px;
+          height: 300px;
           display: block;
-          margin: 0 auto; /* Center the chart */
-          border: 2px solid #ccc; /* Optional: Add border */
-          padding: 5px; /* Optional: Add padding */
-          background-color: #f9f9f9; /* Optional: Add background */
+          margin: 0 auto; 
+          border: 2px solid #ccc;
+          padding: 5px;
+          background-color: #f9f9f9;
         }
       </style>
     `;
 
-    // Add the specific chart styles to the head
     const head = doc.querySelector("head");
     const styleElement = document.createElement("style");
     styleElement.innerHTML = inlineStyle;
     head.appendChild(styleElement);
 
-    // Ensure all images are fully loaded before proceeding
     await Promise.all(
       images.map(
         (img) =>
@@ -166,26 +576,21 @@ const TemplateEditor = () => {
               resolve();
             } else {
               img.onload = resolve;
-              img.onerror = resolve; // Handle load errors gracefully
+              img.onerror = resolve;
             }
           })
       )
     );
 
-    // Ensure that dynamically created images, like charts, are properly encoded in Base64
     const chartBase64 = generateChartBase64();
     if (chartBase64) {
-      // Find the chart image in the DOM and update its source with Base64 if necessary
       const chartImage = doc.querySelector(".chartImage");
       if (chartImage) {
-        chartImage.src = chartBase64; // Update the chart image src with the Base64 encoded image
+        chartImage.src = chartBase64;
       }
     }
 
-    // Debug: Log the final HTML being passed to html2pdf
     console.log("Final HTML for PDF:", doc.documentElement.outerHTML);
-
-    // Set options for html2pdf
     const opt = {
       margin: 0,
       filename: "preview-template.pdf",
@@ -195,6 +600,7 @@ const TemplateEditor = () => {
     };
     html2pdf().from(doc.documentElement.outerHTML).set(opt).save();
   };
+
   const generateChartBase64 = () => {
     const chartCanvas = document.getElementById("chartCanvas");
     if (chartCanvas) {
@@ -243,8 +649,6 @@ const TemplateEditor = () => {
         <body>${htmlContent}</body>
       </html>
     `;
-    const filename =
-      prompt("Enter a name for the proposal (e.g., proposal1):") || "proposal";
 
     try {
       const response = await fetch(
@@ -254,12 +658,17 @@ const TemplateEditor = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ filename, content: fullContent }),
+          body: JSON.stringify({
+            filename: proposalName,
+            content: fullContent,
+          }),
         }
       );
 
       if (response.ok) {
-        alert(`Proposal "${filename}" saved successfully with CSS!`);
+        alert(`Proposal "${proposalName}" saved successfully with CSS!`);
+        setFormVisible(false);
+        setProposalName("");
       } else {
         alert("Error saving proposal.");
       }
@@ -268,7 +677,9 @@ const TemplateEditor = () => {
       alert("Failed to save proposal.");
     }
   };
+
   const handlePreview = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(`
         http://localhost:8000/api/v1/proposal/get-html/${selectedProposal}`);
@@ -291,6 +702,7 @@ const TemplateEditor = () => {
             }
           });
         });
+
         setPreviewContent(doc.documentElement.outerHTML);
         setShowPreview(true);
       } else {
@@ -298,6 +710,8 @@ const TemplateEditor = () => {
       }
     } catch (error) {
       console.error("Error fetching proposal content:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -306,6 +720,7 @@ const TemplateEditor = () => {
     setSelectedProposal(filename);
 
     if (filename) {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `http://localhost:8000/api/v1/proposal/get-html/${filename}`
@@ -340,6 +755,8 @@ const TemplateEditor = () => {
         }
       } catch (error) {
         console.error("Error fetching proposal content:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -349,39 +766,102 @@ const TemplateEditor = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-row">
-      <div className="w-[35%]">
+    <div className="w-full h-auto flex flex-row">
+      <div className="w-[15%]">
+        <div className="pl-4">
+          <button
+            onClick={handleSaveContent}
+            className="border rounded-full pl-4 py-1 mt-2 px-4 bg-[#b1fcf6]"
+          >
+            Save
+          </button>
+        </div>
+        <div className="pl-4">
+          <select
+            className="border rounded-full pl-4 py-1 mt-2 px-4 bg-[#b1fcf6]"
+            id="proposal-dropdown"
+            value={selectedProposal}
+            onChange={handleSelectChange}
+          >
+            <option value="">Templates</option>
+            {Array.isArray(proposals) &&
+              proposals.map((proposal) => (
+                <option key={proposal.filename} value={proposal.filename}>
+                  {proposal.filename}
+                </option>
+              ))}
+          </select>
+        </div>
         <div className="pl-4">
           <button
             onClick={handlePreview}
-            className="border rounded-full pl-4 py-1 mt-2 px-4 bg-yellow-700 text-white"
+            className="border rounded-full pl-4 py-1 mt-2 px-4 bg-[#b1fcf6] "
           >
             Preview
           </button>
 
+          {isLoading && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+              <div className="spinner border-t-4 border-blue-600 border-solid rounded-full w-16 h-16 animate-spin"></div>
+            </div>
+          )}
+
           <button
-            onClick={handleSaveAsHTML}
-            className="border rounded-full pl-4 py-1 mt-2 px-4 bg-yellow-700 text-white"
+            onClick={() => setFormVisible(true)}
+            className="border rounded-full pl-4 py-1 mt-2 px-4 bg-[#b1fcf6] "
           >
-            Save proposal
+            Save Tamplate
           </button>
-          <div>
-            <select
-              className="border rounded-full pl-4 py-1 mt-2 px-4 bg-yellow-700 text-white"
-              id="proposal-dropdown"
-              value={selectedProposal}
-              onChange={handleSelectChange}
+
+          <div className="mt-2">
+            <button
+              onClick={handleDownloadPDFFromEditor}
+              className="border rounded-full py-1 px-4 bg-[#b1fcf6] "
             >
-              <option value="">Templates</option>
-              {Array.isArray(proposals) &&
-                proposals.map((proposal) => (
-                  <option key={proposal.filename} value={proposal.filename}>
-                    {proposal.filename}
-                  </option>
-                ))}
-            </select>
+              Download
+            </button>
           </div>
         </div>
+      </div>
+
+      <div className="relative w-full h-full">
+        <div
+          ref={editorRef}
+          className="editor-container relative w-full h-full"
+        ></div>
+        {isFormVisible && (
+          <div className="absolute inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+              <h2 className="text-lg font-bold mb-4">Save Proposal</h2>
+              <input
+                type="text"
+                value={proposalName}
+                onChange={(e) => setProposalName(e.target.value)}
+                placeholder="Enter proposal name"
+                className="border border-gray-300 rounded px-4 py-2 w-full mb-4"
+              />
+              <div className="flex justify-end space-x-2">
+                <button
+                  onClick={() => setFormVisible(false)}
+                  className="bg-gray-300 text-gray-700 px-4 py-2 rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveAsHTML}
+                  className="bg-[#b1fcf6] text-white px-4 py-2 rounded"
+                >
+                  Save
+                </button>
+              </div>
+              {message && (
+                <p className="mt-4 text-sm text-center text-green-600">
+                  {message}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {showPreview && (
@@ -389,13 +869,13 @@ const TemplateEditor = () => {
           <div className="bg-white p-6 w-[90vw] h-[90vh] overflow-y-auto">
             <button
               onClick={closePreview}
-              className="absolute top-4 right-4 bg-red-500 text-white rounded-full px-4 py-2"
+              className="absolute top-4 right-4 bg-[#b1fcf6]  rounded-full px-4 py-2"
             >
               Cancel
             </button>
             <button
               onClick={handleDownloadPDFFromPreview}
-              className="absolute top-15 right-4 bg-red-500 text-white rounded-full px-4 py-2"
+              className="absolute top-15 right-4 bg-[#b1fcf6] rounded-full px-4 py-2"
             >
               Download
             </button>
@@ -408,19 +888,6 @@ const TemplateEditor = () => {
           </div>
         </div>
       )}
-
-      <div>
-        <div ref={editorRef} className="editor-container"></div>
-
-        <div className="p-2">
-          <button
-            onClick={handleDownloadPDFFromEditor}
-            className="border rounded-full py-1 px-4 bg-yellow-700 text-white"
-          >
-            Download as PDF
-          </button>
-        </div>
-      </div>
     </div>
   );
 };
