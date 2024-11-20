@@ -5,6 +5,14 @@ import "grapesjs/dist/css/grapes.min.css";
 import gjsBlocksBasic from "grapesjs-blocks-basic";
 import html2pdf from "html2pdf.js";
 import { useLocation } from "react-router-dom";
+import { customerBlock } from './Blocks/CustomerBlock';
+import { applicationBlock } from "./Blocks/ApplicationBlock";
+import { whychoseusBlock } from "./Blocks/WhyChoseUsBlock";
+import { projecttimelineBlocks } from "./Blocks/ProjectTimelineBlock";
+import { termsandconditionBlocks } from "./Blocks/TermsAndCon";
+import { thankyouBlocks } from "./Blocks/ThankYouBlock";
+import userData from './Data/UserAndCompanyData.json';
+
 const TemplateEditor = () => {
   const editorRef = useRef(null);
   const editorInstance = useRef(null);
@@ -18,23 +26,46 @@ const TemplateEditor = () => {
   const [isFormVisible, setFormVisible] = useState(false);
   const [proposalName, setProposalName] = useState("");
   const [message, setMessage] = useState("");
+  
 
   const [variables, setVariables] = useState({
-    RefrenceNo: params.get("RefrenceNo"),
-    Date: params.get("Date"),
-    Size: params.get("Size"),
-    CustomerName: params.get("CustomerName"),
-    CustomerPhone: params.get("CustomerPhone"),
-    CustomerCity: params.get("CustomerCity"),
-    chartImage: "http://localhost:8000/api/temp-image",
-    CompanyName: "Dummy Company Name",
-    CompanyAddress: "123 Company St",
-    CompanyPhone: "123-456-7890",
-    CompanyEmail: "company@example.com",
-    CompanyGST: "GST123456789",
-    CompanyPOC: "John Doe",
-    CompanyWebsite: "www.company.com",
+    RefrenceNo: '',
+    Date: '',
+    Size: '',
+    CustomerName: '',
+    CustomerPhone: '',
+    CustomerCity: '',
+    chartImage: '',
+    CompanyName: '',
+    CompanyAddress: '',
+    CompanyPhone: '',
+    CompanyEmail: '',
+    CompanyGST: '',
+    CompanyPOC: '',
+    CompanyWebsite: '',
   });
+
+  useEffect(() => {
+    if (userData) {
+      setVariables({
+        RefrenceNo: userData.ReferenceNo || '',
+        Date: userData.Date || '',
+        Size: userData.Size || '',
+        CustomerName: userData.CustomerName || '',
+        CustomerPhone: userData.CustomerPhone || '',
+        CustomerCity: userData.CustomerCity || '',
+        chartImage: "http://localhost:8000/api/temp-image",
+        CompanyName: userData.CompanyName || '',
+        CompanyAddress: userData.CompanyAddress || '',
+        CompanyPhone: userData.CompanyPhone || '',
+        CompanyEmail: userData.CompanyEmail || '',
+        CompanyGST: userData.CompanyGST || '',
+        CompanyPOC: userData.CompanyPOC || '',
+        CompanyWebsite: userData.CompanyWebsite || '',
+      });
+    }
+  }, []);
+
 
   useEffect(() => {
     if (editorRef.current && !editorInstance.current) {
@@ -69,437 +100,40 @@ const TemplateEditor = () => {
 
       blockManager.add("full-container-customer-details", {
         label: "Customer and Company",
-        content: `
-          <div style="width: 450px; height: 500px; margin-top: 60%; margin-left: 10%; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
-            <div style="margin-bottom: 2px;">
-              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <p style="margin: 0;">Ref No:</p>&nbsp;<span class="RefrenceNo">S102</span>
-              </div>
-              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <p style="margin: 0;">Date:</p>&nbsp;<span class="Date">10-12-2024</span>
-              </div>
-            </div>
-            <div>
-              <div style="font-size: 28px; color: #e63946; font-weight: 600; display: flex; align-items: center;">
-                <p class="Size" style="margin: 0;">10</p>&nbsp;<span>Kw</span>
-              </div>
-              <h1 style="font-size: 28px; color: #e63946; font-weight: 600; margin-bottom: 2px;">
-                Solar Proposal
-              </h1>
-            </div>
-
-            <div style="margin-bottom: 2px;">
-              <h2 style="font-size: 18px; font-weight: 600;">Prepared For:</h2>
-              <div style="font-size: 15px;  display: flex; align-items: center;">
-                <span class="CustomerName">John Deo</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px; display: flex; align-items: center;">
-                <span class="CustomerPhone">8967328873</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px;  display: flex; align-items: center;">
-                <span class="CustomerCity">Jamia Nagar, Okhla, New Delhi, 110025</span>&nbsp;
-                <p style="margin: 0;">.</p>
-              </div>
-            </div>
-
-            <div style="margin-bottom: 2px;">
-              <h2 style="font-size: 18px; font-weight: 600;">Prepared By:</h2>
-              <div style="font-size: 15px;  display: flex; align-items: center; ">
-                <span class="CompanyPoc">Steve</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px; display: flex; align-items: center;">
-                <span class="CompanyName">Lead2solar</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px;  display: flex; align-items: center;">
-                <span class="CompanyPhone">9964537294</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px;  display: flex; align-items: center;">
-                <span class="CompanyAddress">Prabhu Kripa, Tilak Rd., Rajawadi, Ghatkoper (east) · Mumbai · Maharashtra, 400077</span>&nbsp;
-                <p style="margin: 0;">.</p>
-              </div>
-            </div>
-          </div>
-        `,
-
+        content: customerBlock,
         category: "Custom Blocks",
       });
 
       blockManager.add("full-container-application-details", {
         label: "Application",
-        content: `
-          <div style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: center;">
-            <div style="width: 100%; padding: 16px 0;">
-              <h1 style="text-decoration: underline; color: #e63946; font-weight: bold; font-size: 24px;">
-                Welcome
-              </h1>
-            </div>
-
-            <div style="display: flex; width: 100%; justify-content: space-between;">
-              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <p style="margin: 0;">Offer No:</p>&nbsp;
-                <span class="RefrenceNo">S102</span>
-              </div>
-              <div style="font-size: 16px; font-weight: 600; display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <p style="margin: 0;">Date:</p>&nbsp;<span class="Date">10-12-2024</span>
-              </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; justify-content: space-between;">
-              <p style="margin: 0;">To,</p>
-              <div style="font-size: 15px;  display: flex; align-items: center;">
-                <span class="CustomerName">John Deo</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px;  display: flex; align-items: center;">
-                <span class="CustomerCity">Jamia Nagar, Okhla, New Delhi, 110025</span>&nbsp;
-                <p style="margin: 0;">.</p>
-              </div>
-            </div>
-
-            <div style="display: flex; flex-direction: column; justify-content: space-center;">
-              <p style="margin: 0;">
-                Sub:
-                <span style="text-decoration: underline;">
-                  Proposal for Supply & Installation of
-                  <span style="color: #e63946; font-weight: 600; display: inline-flex; align-items: end;">
-                    <span class="Size" style="margin: 0;">10</span>&nbsp;
-                    <span>Kw</span>
-                  </span>
-                  Grid Connected Solar PV Power Plant.
-                </span>
-              </p>
-            </div>
-
-            <div>
-              <p style="margin: 0;">
-                With reference to the above-mentioned subject, we are very much
-                thankful to you for showing your interest in our service. Based
-                on the information provided by you, we are pleased to quote our
-                offer for the supply & installation of a Grid Connected Solar PV
-                Power Plant.
-              </p>
-            </div>
-
-            <div>
-              <p style="margin: 0;">
-                Inter-connected with the electric utility grid or the meters,
-                these systems are also called ‘Grid-Tie Systems’. The DC power
-                is converted into AC power by an inverter. These systems allow
-                users to mobilize the energy provided by the Sun and feed the
-                leftovers to the grid, which helps in cutting down costs. During
-                the evening or in the absence of sunlight, power can be drawn
-                from the grid, thus eliminating the need for battery banks.
-              </p>
-            </div>
-
-            <div>
-              <p style="font-weight: bold; margin: 0;">The benefits include:</p>
-              <div style="padding: 20px; margin-top: 8px;">
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    Limitless power supply which is free of cost.
-                  </p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    Net metering in ‘Grid-Tie Systems’ helps in calculating
-                    exported surplus power to the grid, which contributes to a
-                    reduction in your electricity bill.
-                  </p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    It is easy to maintain and low on operation investments.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <p style="margin: 0;">Thanks & Regards,</p>
-            </div>
-
-            <div>
-              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <span class="CompanyPoc">Steve</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px; display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <span class="CompanyName">Lead2solar</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <span class="CompanyPhone">9834638476</span>&nbsp;
-                <p style="margin: 0;">,</p>
-              </div>
-            </div>
-          </div>
-        `,
-
+        content:applicationBlock,
         category: "Custom Blocks",
       });
 
       blockManager.add("full-container-whychooseus", {
         label: "why choose us",
-        content: `
-          <div style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: center;">
-            <div style="width: 100%; padding: 16px 0;">
-              <h1 style="text-align: start; text-decoration: underline;  color: #e63946; font-weight: bold; font-size: 24px;">
-                On Grid Solar PV Systems
-              </h1>
-              <p style="text-align: start; text-decoration: underline;  color: #e63946; margin: 0; font-weight: bold;">
-                (Diagram for reference)
-              </p>
-            </div>
-
-            <div style="text-align: center; margin: 16px 0;">
-              <img
-                src="/whychooseus.jpg"
-                alt="On Grid Solar PV Diagram"
-                style="width: 100%; height: 300px;"
-              />
-            </div>
-
-            <div>
-              <h2 style="color: #000; font-size: 18px; margin-bottom: 8px; display: flex; align-items: center;">
-                Why <span class="CompanyName" style="font-size: 18px; font-weight: bold; margin-left: 0.5rem;">M/S SAI KRIPA ENTERPRISE</span> !!
-              </h2>
-              <div style="margin: 0; padding-left: 20px; color: #333; font-size: 16px; line-height: 1.5;">
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    We are MNRE approved EPC Vendor.
-                  </p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    We are authorized by MGVCL, PGVCL, DGVCL, UGVCL, GEDA, Torrent Power,
-                    GUVNL, etc.
-                  </p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    Zero maintenance cost with savings on your Electricity Bill &
-                    Environment.
-                  </p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    Vast area covers in Vadodara, Dahod, Panchmahal & Chhotaudepur for Solar
-                    system work with so many happy & satisfied clients.
-                  </p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">
-                    Transparent business with Quick & Reliable Installation.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h2 style="color: #000; font-size: 18px; margin-bottom: 8px; display: flex; align-items: center;">
-                Solar Components:
-              </h2>
-              <div style="margin: 0; padding-left: 20px; color: #333; font-size: 16px; line-height: 1.5;">
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">Solar Panels.</p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">Solar Inverter.</p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">ACDB & DCDB Box.</p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">Solar Panels Mounting Structure with structure accessories.</p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">AC & DC Cables.</p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">Earthing Kit with chemical bag.</p>
-                </div>
-                <div style="display: flex; align-items: center;">
-                  <span>&#x27A2;&nbsp;</span>
-                  <p style="margin: 0;">Lightning Arrestor (LA).</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        `,
+        content: whychoseusBlock,
 
         category: "Custom Blocks",
       });
 
       blockManager.add("full-container-Timeline", {
         label: "Project timeline",
-        content: `
-        <div 
-        style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: center;"
-      >
-        <div style="width: 100%; padding: 16px 0;">
-          <h1 style="text-align: start; text-decoration: underline; color: #e63946; font-weight: bold; font-size: 24px;">Project Timeline</h1>
-        </div>
-        <div style="text-align: center; margin: 16px 0;">
-          <img src="/timeline.png" alt="Project Timeline Diagram" style="width: 100%; height: 300px;" />
-        </div>
-        <div>
-          <h2 style="text-decoration: underline; color: #e63946; font-weight: bold; font-size: 24px; margin-bottom: 8px;">Scope of Work</h2>
-            <div style="margin: 0; color: #333; font-size: 16px; line-height: 1.5;">
-              <div style="margin-bottom: 16px;">
-                <div style="display: flex; align-items: center;">
-                  <p style="margin: 0;"><strong>Our Scope:</strong></p>
-                </div>
-                <div style="">
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">1.&nbsp Online registration process & submission of documents in MGVCL.</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">2.&nbsp Collection of payments.</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">3.&nbsp Installation of Solar System.</p>
-                  </div>
-                </div>
-              </div>
-              <div style="margin-bottom: 16px;">
-                <div style="display: flex; align-items: center;">
-                  <p style="margin: 0;"><strong>Customer Scope:</strong></p>
-                </div>
-                <div style="">
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">1.&nbsp Any changes or updating in customer’s documents for solar system</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">2.&nbsp Providing safe storage place for material during Installation & Commissioning period.</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">3.&nbsp Providing appropriate space for structure & Earthing for solar system</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">4.&nbsp Approval of structure at the time of order and Solar system’s Insurance.</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">5.&nbsp Civil work (Foundation) of structure and Solar Cleaning regularly.</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">6.&nbsp Installation of ELCB / RCCB / MCB.</p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div style="display: flex; align-items: center;">
-                  <p style="margin: 0;"><strong>MGVCL & MNRE Scope:</strong></p>
-                </div>
-                <div style="">
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">1.&nbsp 	Approval & clearance for installing solar system at customer’s place</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">2.&nbsp MGVCL Connection of Solar Meter after installation of solar system.</p>
-                  </div>
-                  <div style="display: flex; align-items: center;">
-                    <p style="margin: 0;">3.&nbsp Subsidy amount deposited in customer’s bank account.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-        </div>
-      </div>
-`      
-        ,
+        content: projecttimelineBlocks,
 
         category: "Custom Blocks",
       });
 
       blockManager.add("full-container-TandC", {
         label: "Terms and Conditions",
-        content: `
-        <div
-        style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: start; margin-top:56px"
-      >
-        <div style="width: 100%; padding: 16px 0; margin-top: 20px;">
-          <h1 style="text-align: start; text-decoration:underline; color: #e63946; font-weight: bold; font-size: 24px;">General Terms & Conditions</h1>
-        </div>
-        <div style="margin-bottom: 16px;">
-         <div style="display: flex; flex-direction: column; gap: 5px;">
-          <div>
-            <p style="margin-top: 5px;">1.&nbsp; Site Work: Sometimes some customers force us to fulfill site work as per customer’s personal advice, guidelines, & thinking. At that time, in such cases, the customer is responsible for all matters in the present & future.</p>
-          </div>
-          <div>
-            <p style="margin-top: 5px;">2.&nbsp; Project Time: Duration required for Installation of Solar System is subject to time required for Government and Discom clearance, Materials Availability, Pandemic, Weather Condition, etc.</p>
-          </div>
-          <div>
-            <p style="margin-top: 5px;">3.&nbsp; Delivery of Materials: Within 15 Days after 100% full system amount is deposited in our bank account. All orders are subject to final confirmation & stock availability. (If one’s material is delivered at the customer’s site, then it’s not taken back by us under any conditions.)</p>
-          </div>
-          <div>
-            <p style="margin-top: 5px;">4.&nbsp; Subsidy: Subsidy amount is directly deposited in the customer’s bank account by MNRE. If there is any query for subsidy, contact MGVCL directly as it’s deposited by MNRE and not in our control.</p>
-          </div>
-          <div>
-            <p style="margin-top: 5px;">5.&nbsp; Damages: The company will not be responsible for any kind of mishandling, and we are not responsible for any damages caused by physical, accidental, or natural calamities like cyclones, pandemics, fires, earthquakes, tsunamis, etc.</p>
-          </div>
-          <div>
-            <p style="margin-top: 5px;">6.&nbsp; Our Contact: Please visit our office or call our customer care numbers for further details/documents/requirements during office hours, i.e., 10 am to 5 pm, Monday to Saturday. (Office Closed - Sunday and Government Holidays)</p>
-          </div>
-          <div>
-            <p style="margin-top: 5px;">7.&nbsp; General Terms: Every rule of the Government is paramount to us. Therefore, every new change made by the Government will be implemented from that same day. The new changes in Rules, Prices, and Other Things have to be accepted by all customers accordingly.</p>
-          </div>
-        </div>
-      </div>
-        `,
+        content: termsandconditionBlocks,
 
         category: "Custom Blocks",
       });
 
       blockManager.add("full-container-thankyou", {
         label: "Thank You",
-        content: `
-          <div style="width: 450px; height: 500px; margin-top: 60%; margin-left: 10%; display: flex; flex-direction: column; align-items: flex-start; justify-content: center;">
-            <div>
-              <h1 style="font-size: 40px; color: #e63946; font-weight: 600; margin-bottom: 2px;">
-                Thank You!
-              </h1>
-            </div>
-            <div style="margin-bottom: 2px;">
-              <h2 style="font-size: 22px; font-weight: 600;">For Further Inquiries Connect with us at:</h2>
-              <div style=" display: flex; align-items: start; margin-bottom: 0.5rem;">
-                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">Address:</p>&nbsp;<span class="CompanyAddress">Prabhu Kripa, Tilak Rd., Rajawadi, Ghatkoper (east) · Mumbai · Maharashtra, 400077</span>
-              </div>
-
-              <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">CompanyPhone:</p>&nbsp; <span class="CompanyPhone">9964537294</span>
-              </div>
-
-              <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">CompanyMail:</p>&nbsp; <span class="CompanyMail">lead2solar@gmail.com</span>
-              </div>
-
-              <div style=" display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">CompanyGST:</p>&nbsp; <span class="CompanyGST">GSTN2785GDJGUR6</span>
-              </div>
-            </div>
-          </div>
-        `,
+        content: thankyouBlocks,
 
         category: "Custom Blocks",
       });

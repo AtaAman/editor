@@ -1,0 +1,17 @@
+{
+    "ReferenceNo": "REF123456",
+    "Date": "2024-11-20",
+    "Size": "10",
+    "CustomerName": "John Smith",
+    "CustomerPhone": "123-456-7890",
+    "CustomerCity": "New York",
+    "CompanyName": "My Awesome Company",
+    "chartImage": "http://localhost:8000/api/temp-image",
+    "CompanyAddress": "456 Company Rd",
+    "CompanyPhone": "987-654-3210",
+    "CompanyEmail": "contact@mycompany.com",
+    "CompanyGST": "GST987654321",
+    "CompanyPOC": "Jane Doe",
+    "CompanyWebsite": "www.myawesomecompany.com"
+}
+  

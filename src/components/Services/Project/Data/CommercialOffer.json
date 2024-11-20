@@ -1,0 +1,48 @@
+{
+  "commercialOfferAndPaymentSchedule": {
+    "items": [
+      {
+        "description": "System Price",
+        "price": 352850,
+        "gstRate": "13.80%",
+        "gst": 48693.3,
+        "totalPrice": 401543
+      },
+      {
+        "description": "Extra Charges",
+        "price": 1500,
+        "gstRate": "13.80%",
+        "gst": 1500,
+        "totalPrice": 1500
+      },
+      {
+        "description": "Discount",
+        "price": 10000,
+        "gstRate": "0%",
+        "gst": 0,
+        "totalPrice": 10000
+      },
+      {
+        "description": "Cost to Customer",
+        "price": 393043,
+        "gstRate": "13.80%",
+        "gst": 0,
+        "totalPrice": 393043
+      },
+      {
+        "description": "MNRE Subsidy",
+        "price": 78000,
+        "gstRate": "0%",
+        "gst": 0,
+        "totalPrice": 78000
+      },
+      {
+        "description": "Effective Price After Subsidy",
+        "price": 315043,
+        "gstRate": "13.80%",
+        "gst": 0,
+        "totalPrice": 315043
+      }
+    ]
+  }
+}

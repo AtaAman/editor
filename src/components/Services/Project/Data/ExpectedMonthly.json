@@ -1,0 +1,64 @@
+{
+    "expectedMonthlyGenerationAndSavings": [
+      {
+        "month": "January",
+        "generation": "1296 Units",
+        "savings": "Rs. 14,256"
+      },
+      {
+        "month": "February",
+        "generation": "1296 Units",
+        "savings": "Rs. 14,256"
+      },
+      {
+        "month": "March",
+        "generation": "1440 Units",
+        "savings": "Rs. 15,840"
+      },
+      {
+        "month": "April",
+        "generation": "1440 Units",
+        "savings": "Rs. 15,840"
+      },
+      {
+        "month": "May",
+        "generation": "1440 Units",
+        "savings": "Rs. 15,840"
+      },
+      {
+        "month": "June",
+        "generation": "1080 Units",
+        "savings": "Rs. 11,880"
+      },
+      {
+        "month": "July",
+        "generation": "936 Units",
+        "savings": "Rs. 10,296"
+      },
+      {
+        "month": "August",
+        "generation": "936 Units",
+        "savings": "Rs. 10,296"
+      },
+      {
+        "month": "September",
+        "generation": "1008 Units",
+        "savings": "Rs. 11,088"
+      },
+      {
+        "month": "October",
+        "generation": "1152 Units",
+        "savings": "Rs. 12,672"
+      },
+      {
+        "month": "November",
+        "generation": "1152 Units",
+        "savings": "Rs. 12,672"
+      },
+      {
+        "month": "December",
+        "generation": "1224 Units",
+        "savings": "Rs. 13,464"
+      }
+    ]
+}

@@ -25,11 +25,11 @@ function Login() {
     };
   }, []);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/project");
-    }
-  }, [isLoggedIn, navigate]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate("/project");
+  //   }
+  // }, [isLoggedIn, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

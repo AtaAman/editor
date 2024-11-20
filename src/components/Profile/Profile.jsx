@@ -5,7 +5,8 @@ import useUserStore from "../../store/useAuthState";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, getCurrentUser, updateAccountDetails, isLoggedIn, setUser } = useUserStore();
+  const { user, getCurrentUser, updateAccountDetails, isLoggedIn, setUser } =
+    useUserStore();
 
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -70,8 +71,8 @@ const Profile = () => {
         formData.companyWebsite
       );
 
-      setUser(updatedUser); 
-      setIsEditing(false); 
+      setUser(updatedUser);
+      setIsEditing(false);
     } catch (error) {
       console.error("Error updating profile", error);
     }
@@ -88,6 +89,69 @@ const Profile = () => {
             value={formData.fullName}
             onChange={handleInputChange}
             placeholder="Full Name"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder="Email"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="text"
+            name="companyName"
+            value={formData.companyName}
+            onChange={handleInputChange}
+            placeholder="Company Name"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="text"
+            name="companyAddress"
+            value={formData.companyAddress}
+            onChange={handleInputChange}
+            placeholder="Company Address"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="text"
+            name="companyPhone"
+            value={formData.companyPhone}
+            onChange={handleInputChange}
+            placeholder="Company Phone"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="email"
+            name="companyEmail"
+            value={formData.companyEmail}
+            onChange={handleInputChange}
+            placeholder="Company Email"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="text"
+            name="companyGst"
+            value={formData.companyGst}
+            onChange={handleInputChange}
+            placeholder="Company GST"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="text"
+            name="companyPoc"
+            value={formData.companyPoc}
+            onChange={handleInputChange}
+            placeholder="Point of Contact"
             required
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
           />
