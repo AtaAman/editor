@@ -54,7 +54,7 @@ function Hero() {
                 initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.8 }}
-                className="text-white px-8 text-sm py-2 bg-primary shadow-lg shadow-primary/40  rounded-full"
+                className="text-white px-8 text-sm py-2 bg-blue-500 shadow-lg shadow-primary/40  rounded-full"
               >
                 Get Started
               </motion.button>

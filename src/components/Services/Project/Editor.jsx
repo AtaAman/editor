@@ -106,15 +106,15 @@ const TemplateEditor = () => {
 
             <div style="margin-bottom: 2px;">
               <h2 style="font-size: 18px; font-weight: 600;">Prepared By:</h2>
-              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+              <div style="font-size: 15px;  display: flex; align-items: center; ">
                 <span class="CompanyPoc">Steve</span>&nbsp;
                 <p style="margin: 0;">,</p>
               </div>
-              <div style="font-size: 15px; display: flex; align-items: center; margin-bottom: 0.5rem;">
+              <div style="font-size: 15px; display: flex; align-items: center;">
                 <span class="CompanyName">Lead2solar</span>&nbsp;
                 <p style="margin: 0;">,</p>
               </div>
-              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
+              <div style="font-size: 15px;  display: flex; align-items: center;">
                 <span class="CompanyPhone">9964537294</span>&nbsp;
                 <p style="margin: 0;">,</p>
               </div>
@@ -201,13 +201,13 @@ const TemplateEditor = () => {
               <p style="font-weight: bold; margin: 0;">The benefits include:</p>
               <div style="padding: 20px; margin-top: 8px;">
                 <div style="display: flex; align-items: center;">
-                  <span>&#8711;</span>&nbsp;
+                  <span>&#x27A2;&nbsp;</span>
                   <p style="margin: 0;">
                     Limitless power supply which is free of cost.
                   </p>
                 </div>
                 <div style="display: flex; align-items: center;">
-                  <span>&#8711;</span>&nbsp;
+                  <span>&#x27A2;&nbsp;</span>
                   <p style="margin: 0;">
                     Net metering in ‘Grid-Tie Systems’ helps in calculating
                     exported surplus power to the grid, which contributes to a
@@ -215,7 +215,7 @@ const TemplateEditor = () => {
                   </p>
                 </div>
                 <div style="display: flex; align-items: center;">
-                  <span>&#8711;</span>&nbsp;
+                  <span>&#x27A2;&nbsp;</span>
                   <p style="margin: 0;">
                     It is easy to maintain and low on operation investments.
                   </p>
@@ -272,41 +272,77 @@ const TemplateEditor = () => {
               <h2 style="color: #000; font-size: 18px; margin-bottom: 8px; display: flex; align-items: center;">
                 Why <span class="CompanyName" style="font-size: 18px; font-weight: bold; margin-left: 0.5rem;">M/S SAI KRIPA ENTERPRISE</span> !!
               </h2>
-              <ul style="margin: 0; padding-left: 20px; color: #333; font-size: 16px; line-height: 1.5;">
-                <li>We are MNRE approved EPC Vendor.</li>
-                <li>
-                  We are authorized by MGVCL, PGVCL, DGVCL, UGVCL, GEDA, Torrent Power,
-                  GUVNL, etc.
-                </li>
-                <li>
-                  Zero maintenance cost with savings on your Electricity Bill &
-                  Environment.
-                </li>
-                <li>
-                  Vast area covers in Vadodara, Dahod, Panchmahal & Chhotaudepur for Solar
-                  system work with so many happy & satisfied clients.
-                </li>
-                <li>
-                  Transparent business with Quick & Reliable Installation.
-                </li>
-              </ul>
+              <div style="margin: 0; padding-left: 20px; color: #333; font-size: 16px; line-height: 1.5;">
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">
+                    We are MNRE approved EPC Vendor.
+                  </p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">
+                    We are authorized by MGVCL, PGVCL, DGVCL, UGVCL, GEDA, Torrent Power,
+                    GUVNL, etc.
+                  </p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">
+                    Zero maintenance cost with savings on your Electricity Bill &
+                    Environment.
+                  </p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">
+                    Vast area covers in Vadodara, Dahod, Panchmahal & Chhotaudepur for Solar
+                    system work with so many happy & satisfied clients.
+                  </p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">
+                    Transparent business with Quick & Reliable Installation.
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div>
-              <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">
+              <h2 style="color: #000; font-size: 18px; margin-bottom: 8px; display: flex; align-items: center;">
                 Solar Components:
               </h2>
-              <ul style="margin: 0; padding-left: 20px;">
-                <li>Solar Panels.</li>
-                <li>Solar Inverter.</li>
-                <li>ACDB & DCDB Box.</li>
-                <li>
-                  Solar Panels Mounting Structure with structure accessories.
-                </li>
-                <li>AC & DC Cables.</li>
-                <li>Earthing Kit with chemical bag.</li>
-                <li>Lightning Arrestor (LA).</li>
-              </ul>
+              <div style="margin: 0; padding-left: 20px; color: #333; font-size: 16px; line-height: 1.5;">
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">Solar Panels.</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">Solar Inverter.</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">ACDB & DCDB Box.</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">Solar Panels Mounting Structure with structure accessories.</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">AC & DC Cables.</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">Earthing Kit with chemical bag.</p>
+                </div>
+                <div style="display: flex; align-items: center;">
+                  <span>&#x27A2;&nbsp;</span>
+                  <p style="margin: 0;">Lightning Arrestor (LA).</p>
+                </div>
+              </div>
             </div>
           </div>
         `,
@@ -327,32 +363,67 @@ const TemplateEditor = () => {
           <img src="/timeline.png" alt="Project Timeline Diagram" style="width: 100%; height: 300px;" />
         </div>
         <div>
-          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">Scope of Work</h2>
-          <ul style="display: flex; flex-direction: column; justify-content: space-between; height:360px;    margin: 0; padding-left: 20px;">
-            <div>
-            <li><strong>Our Scope:</strong></li>
-              <ul>
-                <li>Online registration process & submission of documents in MGVCL.</li>
-                <li>Collection of payments.</li>
-                <li>Installation of Solar System.</li>
-              </ul>
+          <h2 style="text-decoration: underline; color: #e63946; font-weight: bold; font-size: 24px; margin-bottom: 8px;">Scope of Work</h2>
+            <div style="margin: 0; color: #333; font-size: 16px; line-height: 1.5;">
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <p style="margin: 0;"><strong>Our Scope:</strong></p>
+                </div>
+                <div style="">
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">1.&nbsp Online registration process & submission of documents in MGVCL.</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">2.&nbsp Collection of payments.</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">3.&nbsp Installation of Solar System.</p>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-bottom: 16px;">
+                <div style="display: flex; align-items: center;">
+                  <p style="margin: 0;"><strong>Customer Scope:</strong></p>
+                </div>
+                <div style="">
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">1.&nbsp Any changes or updating in customer’s documents for solar system</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">2.&nbsp Providing safe storage place for material during Installation & Commissioning period.</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">3.&nbsp Providing appropriate space for structure & Earthing for solar system</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">4.&nbsp Approval of structure at the time of order and Solar system’s Insurance.</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">5.&nbsp Civil work (Foundation) of structure and Solar Cleaning regularly.</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">6.&nbsp Installation of ELCB / RCCB / MCB.</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div style="display: flex; align-items: center;">
+                  <p style="margin: 0;"><strong>MGVCL & MNRE Scope:</strong></p>
+                </div>
+                <div style="">
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">1.&nbsp 	Approval & clearance for installing solar system at customer’s place</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">2.&nbsp MGVCL Connection of Solar Meter after installation of solar system.</p>
+                  </div>
+                  <div style="display: flex; align-items: center;">
+                    <p style="margin: 0;">3.&nbsp Subsidy amount deposited in customer’s bank account.</p>
+                  </div>
+                </div>
+              </div>
             </div>
-           <div>
-            <li><strong>Customer Scope:</strong></li>
-            <ul>
-              <li>Providing safe storage for materials during installation.</li>
-              <li>Approval of structure at the time of order.</li>
-              <li>Installation of ELCB / RCCB / MCB.</li>
-            </ul>
-           </div>
-           <div>
-            <li><strong>MGVCL & MNRE Scope:</strong></li>
-            <ul>
-              <li>Approval for installing the solar system at the customer's place.</li>
-              <li>Subsidy amount deposited in the customer's bank account.</li>
-            </ul>
-           </div>
-          </ul>
+
         </div>
       </div>
 `      
@@ -367,38 +438,32 @@ const TemplateEditor = () => {
         <div
         style="width: 210mm; height: 297mm; color: black; display: flex; flex-direction: column; gap: 24px; padding: 0 56px; justify-content: start; margin-top:56px"
       >
-        <div style="width: 100%; padding: 16px 0;">
+        <div style="width: 100%; padding: 16px 0; margin-top: 20px;">
           <h1 style="text-align: start; text-decoration:underline; color: #e63946; font-weight: bold; font-size: 24px;">General Terms & Conditions</h1>
         </div>
-      
-        <div>
-          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">General Terms</h2>
-          <ul style="margin: 0; padding-left: 20px;">
-            <li>All materials supplied are subject to availability and final confirmation.</li>
-            <li>Delivery dates are estimated and subject to unavoidable delays such as natural calamities, government restrictions, or logistic challenges.</li>
-            <li>Installation of the solar system will follow the schedule mutually agreed upon with the customer.</li>
-            <li>Payment terms must be followed strictly. Non-compliance may delay project execution.</li>
-            <li>Customer is responsible for any modifications or additional work requested during or after installation.</li>
-          </ul>
-        </div>
-      
-        <div>
-          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">Scope of Responsibilities</h2>
-          <ul style="margin: 0; padding-left: 20px;">
-            <li><strong>Company:</strong> The company will ensure quality installation and adhere to all MNRE and local authority standards.</li>
-            <li><strong>Customer:</strong> The customer is responsible for providing safe storage for materials and access to the installation site.</li>
-            <li><strong>Government:</strong> Subsidy approval and disbursement are subject to MNRE and MGVCL processes. Delays, if any, are beyond the company’s control.</li>
-          </ul>
-        </div>
-
-        <div>
-          <h2 style="color: #000; font-size: 18px; margin-bottom: 8px;">Important Notices</h2>
-          <ul style="margin: 0; padding-left: 20px;">
-            <li>The company is not liable for damages caused by natural calamities or external factors beyond control.</li>
-            <li>All government policies and regulations are subject to immediate implementation upon official announcements.</li>
-            <li>Warranty claims are valid only if the terms of use are adhered to and approved by the company’s support team.</li>
-            <li>Subsidy benefits are governed by MNRE rules, and disputes must be addressed with the respective authorities.</li>
-          </ul>
+        <div style="margin-bottom: 16px;">
+         <div style="display: flex; flex-direction: column; gap: 5px;">
+          <div>
+            <p style="margin-top: 5px;">1.&nbsp; Site Work: Sometimes some customers force us to fulfill site work as per customer’s personal advice, guidelines, & thinking. At that time, in such cases, the customer is responsible for all matters in the present & future.</p>
+          </div>
+          <div>
+            <p style="margin-top: 5px;">2.&nbsp; Project Time: Duration required for Installation of Solar System is subject to time required for Government and Discom clearance, Materials Availability, Pandemic, Weather Condition, etc.</p>
+          </div>
+          <div>
+            <p style="margin-top: 5px;">3.&nbsp; Delivery of Materials: Within 15 Days after 100% full system amount is deposited in our bank account. All orders are subject to final confirmation & stock availability. (If one’s material is delivered at the customer’s site, then it’s not taken back by us under any conditions.)</p>
+          </div>
+          <div>
+            <p style="margin-top: 5px;">4.&nbsp; Subsidy: Subsidy amount is directly deposited in the customer’s bank account by MNRE. If there is any query for subsidy, contact MGVCL directly as it’s deposited by MNRE and not in our control.</p>
+          </div>
+          <div>
+            <p style="margin-top: 5px;">5.&nbsp; Damages: The company will not be responsible for any kind of mishandling, and we are not responsible for any damages caused by physical, accidental, or natural calamities like cyclones, pandemics, fires, earthquakes, tsunamis, etc.</p>
+          </div>
+          <div>
+            <p style="margin-top: 5px;">6.&nbsp; Our Contact: Please visit our office or call our customer care numbers for further details/documents/requirements during office hours, i.e., 10 am to 5 pm, Monday to Saturday. (Office Closed - Sunday and Government Holidays)</p>
+          </div>
+          <div>
+            <p style="margin-top: 5px;">7.&nbsp; General Terms: Every rule of the Government is paramount to us. Therefore, every new change made by the Government will be implemented from that same day. The new changes in Rules, Prices, and Other Things have to be accepted by all customers accordingly.</p>
+          </div>
         </div>
       </div>
         `,
@@ -417,21 +482,20 @@ const TemplateEditor = () => {
             </div>
             <div style="margin-bottom: 2px;">
               <h2 style="font-size: 22px; font-weight: 600;">For Further Inquiries Connect with us at:</h2>
-              <div style="font-size: 15px;  display: flex; align-items: center;">
-                <span class="CompanyAddress">Prabhu Kripa, Tilak Rd., Rajawadi, Ghatkoper (east) · Mumbai · Maharashtra, 400077</span>&nbsp;
-                <p style="margin: 0;">.</p>
+              <div style=" display: flex; align-items: start; margin-bottom: 0.5rem;">
+                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">Address:</p>&nbsp;<span class="CompanyAddress">Prabhu Kripa, Tilak Rd., Rajawadi, Ghatkoper (east) · Mumbai · Maharashtra, 400077</span>
               </div>
-              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <span class="CompanyPhone">9964537294</span>&nbsp;
-                <p style="margin: 0;">,</p>
+
+              <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">CompanyPhone:</p>&nbsp; <span class="CompanyPhone">9964537294</span>
               </div>
-              <div style="font-size: 15px;  display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <span class="CompanyMail">lead2solar@gmail.com</span>&nbsp;
-                <p style="margin: 0;">,</p>
+
+              <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">CompanyMail:</p>&nbsp; <span class="CompanyMail">lead2solar@gmail.com</span>
               </div>
-              <div style="font-size: 15px; display: flex; align-items: center; margin-bottom: 0.5rem;">
-                <span class="CompanyGST">GSTN2785GDJGUR6</span>&nbsp;
-                <p style="margin: 0;">,</p>
+
+              <div style=" display: flex; align-items: center; margin-bottom: 0.5rem;">
+                <p style="margin: 0; font-size: 16px;  font-weight: 600; text-decoration: underline;">CompanyGST:</p>&nbsp; <span class="CompanyGST">GSTN2785GDJGUR6</span>
               </div>
             </div>
           </div>
