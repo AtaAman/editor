@@ -25,7 +25,7 @@ const useUserStore = create((set) => {
     login: async (email, password) => {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/v1/users/login",
+          "https://l2sbackend.onrender.com/api/v1/users/login",
           { email, password }
         );
         const { user, accessToken, refreshToken } = response.data.data;
@@ -54,7 +54,7 @@ const useUserStore = create((set) => {
     ) => {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/v1/users/register",
+          "https://l2sbackend.onrender.com/api/v1/users/register",
           {
             fullName,
             email,
@@ -81,7 +81,7 @@ const useUserStore = create((set) => {
       try {
         const accessToken = useUserStore.getState().accessToken;
         await axios.post(
-          "http://localhost:8000/api/v1/users/logout",
+          "https://l2sbackend.onrender.com/api/v1/users/logout",
           {},
           {
             headers: {
@@ -110,7 +110,7 @@ const useUserStore = create((set) => {
     refreshAccessToken: async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8000/api/v1/users/refresh-token",
+          "https://l2sbackend.onrender.com/api/v1/users/refresh-token",
           {},
           {
             withCredentials: true,
@@ -133,7 +133,7 @@ const useUserStore = create((set) => {
         const accessToken = useUserStore.getState().accessToken;
 
         const response = await axios.get(
-          "http://localhost:8000/api/v1/users/current-user",
+          "https://l2sbackend.onrender.com/api/v1/users/current-user",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -168,7 +168,7 @@ const useUserStore = create((set) => {
         const accessToken = useUserStore.getState().accessToken;
 
         const response = await axios.patch(
-          "http://localhost:8000/api/v1/users/update-account",
+          "https://l2sbackend.onrender.com/v1/users/update-account",
           {
             fullName,
             email,

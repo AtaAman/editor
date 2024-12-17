@@ -8,7 +8,7 @@ const useHtmlFileStore = create((set) => ({
   saveHtmlFile: async (filename, content) => {
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/v1/proposal/save-html',
+        'https://l2sbackend.onrender.com/api/v1/proposal/save-html',
         { filename, content }
       );
 
@@ -23,7 +23,7 @@ const useHtmlFileStore = create((set) => ({
 
   getAllProposals: async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/v1/proposal/proposals');
+      const response = await axios.get('https://l2sbackend.onrender.com/api/v1/proposal/proposals');
       set({ htmlFiles: response.data.data });
     } catch (error) {
       console.error("Error retrieving proposals:", error);
@@ -33,7 +33,7 @@ const useHtmlFileStore = create((set) => ({
 
   getHtmlFile: async (filename) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/v1/proposal/get-html/${filename}`);
+      const response = await axios.get(`https://l2sbackend.onrender.com/api/v1/proposal/get-html/${filename}`);
       set({ currentHtmlFile: response.data.data });
     } catch (error) {
       console.error("Error retrieving HTML file:", error);

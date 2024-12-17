@@ -170,7 +170,7 @@ const TemplateEditor = () => {
     const fetchProposals = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/proposal/proposals"
+          "https://l2sbackend.onrender.com/api/v1/proposal/proposals"
         );
         const data = await response.json();
         if (data && Array.isArray(data.data)) {
@@ -205,7 +205,7 @@ const TemplateEditor = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8000/api/v1/proposal/save-html",
+        "https://l2sbackend.onrender.com/api/v1/proposal/save-html",
         {
           method: "POST",
           headers: {
@@ -239,7 +239,7 @@ const TemplateEditor = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:8000/api/v1/proposal/get-html/${filename}`
+          `https://l2sbackend.onrender.com/api/v1/proposal/get-html/${filename}`
         );
         const proposal = await response.json();
 

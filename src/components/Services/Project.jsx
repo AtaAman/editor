@@ -27,7 +27,7 @@ function Project() {
     CustomerName: "",
     CustomerPhone: "",
     CustomerCity: "",
-    chartImage: "http://localhost:8000/api/temp-image",
+    chartImage: "https://l2sbackend.onrender.com/api/temp-image",
     CompanyName: "Dummy Company Name",
     CompanyAddress: "123 Company St",
     CompanyPhone: "123-456-7890",
@@ -70,7 +70,7 @@ function Project() {
     setIsLoading(true);
     try {
       const response = await fetch(`
-        http://localhost:8000/api/v1/proposal/get-html/${selectedProposal}`);
+        https://l2sbackend.onrender.com/api/v1/proposal/get-html/${selectedProposal}`);
       const proposal = await response.json();
       console.log("Proposal data:", proposal);
 
@@ -194,7 +194,7 @@ function Project() {
     const fetchProposals = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/api/v1/proposal/proposals"
+          "https://l2sbackend.onrender.com/api/v1/proposal/proposals"
         );
         const data = await response.json();
         if (data && Array.isArray(data.data)) {

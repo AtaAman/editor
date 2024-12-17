@@ -52,7 +52,7 @@ const ProposalChart = () => {
       const chartInstance = chartRef.current;
       const image = chartInstance.toBase64Image();
 
-      const response = await fetch('http://localhost:8000/api/upload-chart-image', {
+      const response = await fetch('https://l2sbackend.onrender.com/api/upload-chart-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
