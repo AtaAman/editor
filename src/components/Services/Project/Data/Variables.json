@@ -1,0 +1,19 @@
+{
+    "RefrenceNo": "$RefrenceNo",
+    "Date": "$Date",
+    "Size": "$Size",
+    "CustomerName": "$CustomerName",
+    "CustomerPhone": "$CustomerPhone",
+    "CustomerCity": "$CustomerCity",
+    "chartImage": "$chartImage",
+    "CompanyName": "$CompanyName",
+    "CompanyAddress": "$CompanyAddress",
+    "CompanyPhone": "$CompanyPhone",
+    "CompanyEmail": "$CompanyEmail",
+    "CompanyGST": "$CompanyGST",
+    "CompanyPOC": "$CompanyPOC",
+    "CompanyWebsite": "$CompanyWebsite"
+}
+
+
+  

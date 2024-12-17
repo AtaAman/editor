@@ -22,7 +22,7 @@ export const customerBlock = `
     <div style="margin-bottom: 2px;">
       <h2 style="font-size: 18px; font-weight: 600;">Prepared For:</h2>
       <div style="font-size: 15px;  display: flex; align-items: center;">
-        <span class="CustomerName">John Deo</span>&nbsp;
+        <span class="CustomerName">$CustomerName</span>&nbsp;
         <p style="margin: 0;">,</p>
       </div>
       <div style="font-size: 15px; display: flex; align-items: center;">

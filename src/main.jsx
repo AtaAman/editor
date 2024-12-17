@@ -12,12 +12,13 @@ import Home from "./pages/Home.jsx";
 import Lead from "./components/Services/Lead.jsx";
 import Project from "./components/Services/Project.jsx";
 import Proposal from "./components/Services/Proposal.jsx";
+import Editor from "./components/Services/Tasks.jsx";
 import Login from "./components/Login/Login.jsx";
 import Register from "./components/Register/Register.jsx";
 import Profile from "./components/Profile/Profile.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import PrivateRoute from "./components/PrivateRoutes/PrivateRoutes.jsx";
-import AdminRoute from "./components/AdminRoute/AdminRotes.jsx";
+// import AdminRoute from "./components/AdminRoute/AdminRotes.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +43,16 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
+
+      <Route
+        path="/task"
+        element={
+          <PrivateRoute>
+            <Editor />
+          </PrivateRoute>
+        }
+      />
+
       <Route
         path="/proposal"
         element={
@@ -59,17 +70,11 @@ const router = createBrowserRouter(
         }
       />
 
-      <Route
-        path="/Register"
-        element={
-          <AdminRoute>
-            <Register />
-          </AdminRoute>
-        }
-      />
+      
 
       {/* Public Routes */}
       <Route path="/login" element={<Login />} />
+      <Route path="/Register" element={<Register />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

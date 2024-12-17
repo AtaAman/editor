@@ -47,6 +47,12 @@ function Login() {
 
   return (
     <div className="flex min-h-screen flex-1 flex-col item-center justify-start pt-40 px-6 lg:px-8">
+      <div>
+        <p>demo id password</p>
+        <p>email:satyam@gmail.com</p>
+        <p>password:1234567890</p>
+      </div>
+
       <div className="flex flex-col justify-center items-center">
         <Link to="/home">
           <img
@@ -106,12 +112,14 @@ function Login() {
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
+
+            <Link to="/register">register here</Link>
           </div>
 
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-md bg-[#562356] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign in
             </button>

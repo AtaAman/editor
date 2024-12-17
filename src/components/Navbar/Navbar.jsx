@@ -104,7 +104,7 @@ const Navbar = () => {
                         className="flex items-center py-1 hover:bg-gray-100 rounded"
                       >
                         <FontAwesomeIcon icon={faUserCheck} className="mr-2" />
-                        Lead Management
+                        Graph Generate
                       </Link>
                     </li>
                     <li>
@@ -114,15 +114,6 @@ const Navbar = () => {
                       >
                         <FontAwesomeIcon icon={faClipboard} className="mr-2" />
                         Project Management
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/task"
-                        className="flex items-center py-1 hover:bg-gray-100 rounded"
-                      >
-                        <FontAwesomeIcon icon={faTasks} className="mr-2" />
-                        Task Management
                       </Link>
                     </li>
                     <li>
@@ -186,7 +177,7 @@ const Navbar = () => {
         ) : (
           <Link
             to="/login"
-            className="px-8 hidden lg:block py-2 text-sm text-white bg-primary rounded-full transition duration-200 hover:bg-primary-dark"
+            className="px-8 hidden lg:block py-2 text-sm text-white bg-[#562356] rounded-full transition duration-200 hover:bg-primary-dark"
           >
             Login
           </Link>
@@ -254,7 +245,7 @@ const Navbar = () => {
                                 icon={faUserCheck}
                                 className="mr-2"
                               />
-                              Lead Management
+                              Graph Generate
                             </Link>
                           </li>
                           <li>
@@ -264,15 +255,6 @@ const Navbar = () => {
                                 className="mr-2"
                               />
                               Project Management
-                            </Link>
-                          </li>
-                          <li>
-                            <Link to="/task" className="block py-2">
-                              <FontAwesomeIcon
-                                icon={faTasks}
-                                className="mr-2"
-                              />
-                              Task Management
                             </Link>
                           </li>
                           <li>
@@ -312,7 +294,7 @@ const Navbar = () => {
                   ) : (
                     <Link
                       to="/login"
-                      className="block py-2 text-lg text-white bg-primary rounded-full"
+                      className="block py-2 text-lg text-white bg-[#562356] rounded-full"
                     >
                       Login
                     </Link>
