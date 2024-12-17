@@ -24,8 +24,6 @@
     "grapesjs": "^0.22.3",
     "grapesjs-blocks-basic": "^1.0.2",
     "grapesjs-preset-webpage": "^1.0.3",
-    "grapesjs-tailwind": "^1.0.11",
-    "grapesjs-tailwind-aman": "^1.0.16",
     "handlebars": "^4.7.8",
     "html2pdf.js": "^0.10.2",
     "jspdf": "^2.5.2",

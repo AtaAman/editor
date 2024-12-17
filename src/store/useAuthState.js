@@ -5,7 +5,6 @@ const useUserStore = create((set) => {
   const storedUser = localStorage.getItem("user");
   const storedAccessToken = localStorage.getItem("accessToken");
   const storedRefreshToken = localStorage.getItem("refreshToken");
-
   const initialUser = storedUser ? JSON.parse(storedUser) : null;
   const initialAccessToken = storedAccessToken || null;
   const initialRefreshToken = storedRefreshToken || null;
