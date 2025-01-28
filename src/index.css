@@ -20,3 +20,46 @@
     align-items: center;
     padding: 20px;
   }
+
+  .ruler {
+    position: absolute;
+    background-color: #f0f0f0;
+    z-index: 1;
+  }
+  
+  .ruler-horizontal {
+    height: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .ruler-vertical {
+    width: 20px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+  
+  .ruler-scale {
+    position: absolute;
+    background-color: #ccc;
+  }
+  
+
+  #left-ruler div {
+    position: relative;
+    border-right: 1px solid #ccc;
+  }
+  
+  #top-ruler div {
+    position: relative;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .editor-container {
+    overflow: auto;
+    border: 1px solid #ccc;
+    background: #fff;
+  }
+  
