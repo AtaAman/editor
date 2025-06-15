@@ -1,15 +1,17 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import { Outlet } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
+  const isHome = location.pathname === "/" || location.pathname === "/home";
+
   return (
     <>
-      <Navbar />
-      <Outlet />
-      <Footer />
+      {isHome && <Navbar />}
+      {isHome ? <Outlet /> : <Outlet />}
+      {isHome && <Footer />}
     </>
   );
 }

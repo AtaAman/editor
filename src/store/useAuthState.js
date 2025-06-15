@@ -25,7 +25,7 @@ const useUserStore = create((set) => {
     login: async (email, password) => {
       try {
         const response = await axios.post(
-          "https://l2sbackend.onrender.com/api/v1/users/login",
+          "http://localhost:8000/api/v1/users/login",
           { email, password }
         );
         const { user, accessToken, refreshToken } = response.data.data;
@@ -47,33 +47,74 @@ const useUserStore = create((set) => {
     },
 
     register: async (
-      fullName,
       email,
       password,
-      company
+      companyName,
+      companyLocation,
+      leadsPerMonth,
+      subscriptionPlan,
+      subscriptionAmountPerMonth,
+      subscriptionFrequency,
+      subscriptionStartDate,
+      subscriptionEndDate,
+      companyLogo
     ) => {
       try {
+        const formData = new FormData();
+        formData.append("email", email);
+        formData.append("password", password);
+        formData.append("companyName", companyName);
+        formData.append("companyLocation", companyLocation);
+        formData.append("leadsPerMonth", leadsPerMonth);
+        formData.append("subscriptionPlan", subscriptionPlan);
+        formData.append(
+          "subscriptionAmountPerMonth",
+          subscriptionAmountPerMonth
+        );
+        formData.append("subscriptionFrequency", subscriptionFrequency);
+        formData.append("subscriptionStartDate", subscriptionStartDate);
+        formData.append("subscriptionEndDate", subscriptionEndDate);
+        formData.append("companyLogo", companyLogo);
+
         const response = await axios.post(
-          "https://l2sbackend.onrender.com/api/v1/users/register",
-          {
-            fullName,
-            email,
-            password,
-            company,
-          }
+          "http://localhost:8000/api/v1/users/register",
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
 
-        const newUser = response.data.data.user;
-        localStorage.setItem("user", JSON.stringify(newUser));
-        set({ user: newUser, isLoggedIn: true });
+        const newUser = response.data.data;
+        set({ user: newUser, isLoggedIn: false });
 
-        alert("User registered successfully.");
+        alert("User registered successfully. Check your email for OTP.");
       } catch (error) {
         console.error("Registration error:", error);
         if (axios.isAxiosError(error) && error.response?.status === 409) {
-          throw new Error("User with email or username already exists");
+          throw new Error("User with this email already exists");
         }
         throw new Error("Registration failed");
+      }
+    },
+
+    verifyOtp: async (otp) => {
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/api/v1/users/verify-otp",
+          { otp }
+        );
+
+        set((state) => {
+          if (!state.user) {
+            throw new Error("User not found in store.");
+          }
+          const updatedUser = { ...state.user, isVerified: true };
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+          return { user: updatedUser, isLoggedIn: true };
+        });
+
+        alert("Email verified successfully.");
+      } catch (error) {
+        console.error("OTP verification error:", error);
+        throw new Error("Invalid or expired OTP");
       }
     },
 
@@ -81,7 +122,7 @@ const useUserStore = create((set) => {
       try {
         const accessToken = useUserStore.getState().accessToken;
         await axios.post(
-          "https://l2sbackend.onrender.com/api/v1/users/logout",
+          "http://localhost:8000/api/v1/users/logout",
           {},
           {
             headers: {
@@ -133,7 +174,7 @@ const useUserStore = create((set) => {
         const accessToken = useUserStore.getState().accessToken;
 
         const response = await axios.get(
-          "https://l2sbackend.onrender.com/api/v1/users/current-user",
+          "http://localhost:8000/api/v1/users/current-user",
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -153,33 +194,27 @@ const useUserStore = create((set) => {
       }
     },
 
-    updateAccountDetails: async (
-      fullName,
-      email,
-      companyName,
-      companyAddress,
-      companyPhone,
-      companyEmail,
-      companyGst,
-      companyPoc,
-      companyWebsite
-    ) => {
+    getAllUsers: async () => {
       try {
         const accessToken = useUserStore.getState().accessToken;
-
-        const response = await axios.patch(
-          "https://l2sbackend.onrender.com/v1/users/update-account",
-          {
-            fullName,
-            email,
-            companyName,
-            companyAddress,
-            companyPhone,
-            companyEmail,
-            companyGst,
-            companyPoc,
-            companyWebsite,
+        const response = await axios.get("http://localhost:8000/api/v1/users/all-user", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
+        });
+        return response.data.data;
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        throw new Error("Failed to fetch users");
+      }
+    },
+
+    updateAccountDetails: async (companyName, companyLocation) => {
+      try {
+        const accessToken = useUserStore.getState().accessToken;
+        const response = await axios.patch(
+          "http://localhost:8000/api/v1/users/update-account",
+          { companyName, companyLocation },
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -190,10 +225,84 @@ const useUserStore = create((set) => {
         const updatedUser = response.data.data;
         set({ user: updatedUser });
         localStorage.setItem("user", JSON.stringify(updatedUser));
-        return updatedUser; // Return updated user
+        return updatedUser;
       } catch (error) {
         console.error("Error updating account details:", error);
         throw new Error("Failed to update account details");
+      }
+    },
+
+    updateCompanyLogo: async (companyLogo) => {
+      try {
+        const accessToken = useUserStore.getState().accessToken;
+        const formData = new FormData();
+        formData.append("companyLogo", companyLogo);
+
+        const response = await axios.patch(
+          "http://localhost:8000/api/v1/users/update-logo",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const updatedUser = response.data.data;
+        set({ user: updatedUser });
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        return updatedUser;
+      } catch (error) {
+        console.error("Error updating company logo:", error);
+        throw new Error("Failed to update company logo");
+      }
+    },
+
+    changeCurrentPassword: async (oldPassword, newPassword) => {
+      try {
+        const accessToken = useUserStore.getState().accessToken;
+        await axios.post(
+          "http://localhost:8000/api/v1/users/change-password",
+          { oldPassword, newPassword },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        return { message: "Password changed successfully" };
+      } catch (error) {
+        console.error("Error changing password:", error);
+        throw new Error("Failed to change password");
+      }
+    },
+
+    requestPasswordReset: async (email) => {
+      try {
+        await axios.post(
+          "http://localhost:8000/api/v1/users/request-reset-password",
+          { email }
+        );
+        return { message: "OTP sent to email" };
+      } catch (error) {
+        console.error("Error requesting password reset:", error);
+        throw new Error("Failed to request password reset");
+      }
+    },
+
+    resetPassword: async (email, otp, newPassword) => {
+      try {
+        await axios.post("http://localhost:8000/api/v1/users/reset-password", {
+          email,
+          otp,
+          newPassword,
+        });
+        return { message: "Password reset successfully" };
+      } catch (error) {
+        console.error("Error resetting password:", error);
+        throw new Error("Failed to reset password");
       }
     },
 

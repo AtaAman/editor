@@ -1,58 +1,86 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import useUserStore from "../../store/useAuthState";
 
 function Login() {
   const navigate = useNavigate();
-  const { isLoggedIn, login } = useUserStore();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { login, requestPasswordReset, resetPassword } = useUserStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    );
-    setIsDarkMode(darkModeMediaQuery.matches);
-
-    const handleChange = (e) => setIsDarkMode(e.matches);
-    darkModeMediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      darkModeMediaQuery.removeEventListener("change", handleChange);
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate("/project");
-  //   }
-  // }, [isLoggedIn, navigate]);
+  const [loading, setLoading] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [isResetting, setIsResetting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!email || !password) {
+      toast.error("Please enter both email and password.");
+      return;
+    }
+
+    setLoading(true);
     setError("");
 
     try {
-      console.log("Attempting to log in with email:", email);
       await login(email, password);
-      navigate("/project");
+      toast.success("User logged in successfully.");
+      navigate("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
       setError("Login failed. Please check your credentials.");
+      toast.error("Invalid email or password.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRequestReset = async () => {
+    if (!resetEmail) {
+      toast.error("Please enter your email.");
+      return;
+    }
+
+    setError("");
+    try {
+      await requestPasswordReset(resetEmail);
+      toast.success("Reset OTP sent successfully.");
+      setIsResetting(true);
+    } catch (err) {
+      setError("Failed to send reset OTP. Please try again.");
+      toast.error("Failed to send reset OTP.");
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (!otp || !newPassword) {
+      toast.error("Please enter OTP and new password.");
+      return;
+    }
+
+    setError("");
+    try {
+      await resetPassword(resetEmail, otp, newPassword);
+      toast.success("Password successfully changed.");
+      setIsResetting(false);
+      setForgotPassword(false);
+    } catch (err) {
+      setError(
+        "Failed to reset password. Please check your OTP and try again."
+      );
+      toast.error("Failed to reset password.");
     }
   };
 
   return (
-    <div className="flex min-h-screen flex-1 flex-col item-center justify-start pt-40 px-6 lg:px-8">
-      <div>
-        <p>demo id password</p>
-        <p>email:satyam@gmail.com</p>
-        <p>password:1234567890</p>
-      </div>
-
+    <div className="flex flex-col items-center justify-start pt-20 h-screen">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="flex flex-col justify-center items-center">
         <Link to="/home">
           <img
@@ -67,64 +95,122 @@ function Login() {
           Sign in to your account
         </h2>
       </div>
+
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {error && <p className="text-red-600 text-sm">{error}</p>}
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium leading-6 text-primary"
-            >
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
-          </div>
+        {forgotPassword ? (
+          <div className="space-y-5">
+            <h3 className="text-center text-lg font-semibold text-primary">
+              Forgot Password
+            </h3>
+            {error && <p className="text-red-600 text-sm">{error}</p>}
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-primary"
-              >
-                Password
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            {!isResetting ? (
+              <>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full rounded-md border py-1.5 px-3 text-gray-900 shadow-sm"
+                />
+                <button
+                  onClick={handleRequestReset}
+                  className="w-full bg-primary text-white py-1.5 px-3 rounded-md"
+                >
+                  Send Reset OTP
+                </button>
+              </>
+            ) : (
+              <>
+                <label className="block text-sm font-medium text-gray-700">
+                  OTP
+                </label>
+                <input
+                  type="text"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  placeholder="Enter OTP"
+                  className="w-full rounded-md border py-1.5 px-3 text-gray-900 shadow-sm"
+                />
+                <label className="block text-sm font-medium text-gray-700">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Enter new password"
+                  className="w-full rounded-md border py-1.5 px-3 text-gray-900 shadow-sm"
+                />
+                <button
+                  onClick={handleResetPassword}
+                  className="w-full bg-primary text-white py-1.5 px-3 rounded-md"
+                >
+                  Reset Password
+                </button>
+              </>
+            )}
 
-            <Link to="/register">register here</Link>
-          </div>
-
-          <div>
             <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-[#562356] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-primary/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={() => setForgotPassword(false)}
+              className="text-indigo-600 hover:text-indigo-500"
             >
-              Sign in
+              Back to login
             </button>
           </div>
-        </form>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {error && <p className="text-red-600 text-sm">{error}</p>}
+
+            <label className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email address"
+              className="w-full rounded-md border py-1.5 px-3 text-gray-900 shadow-sm"
+            />
+
+            <label className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              className="w-full rounded-md border py-1.5 px-3 text-gray-900 shadow-sm"
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-primary text-white py-1.5 px-3 rounded-md"
+              disabled={loading}
+            >
+              {loading ? "Signing in..." : "Sign in"}
+            </button>
+
+            <div className="flex justify-between text-sm">
+              <button
+                onClick={() => setForgotPassword(true)}
+                className="text-indigo-600 hover:text-indigo-500"
+              >
+                Forgot password?
+              </button>
+              <Link
+                to="/register"
+                className="text-indigo-600 hover:text-indigo-500"
+              >
+                Register here
+              </Link>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

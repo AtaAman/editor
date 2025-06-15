@@ -17,7 +17,7 @@ function Waves() {
         preserveAspectRatio="none"
       >
         <path
-          fill="#1fbfb3"
+          fill="#fb8500"
           d="M0,160 C240,60,480,260,720,160 C960,60,1200,260,1440,160 C1680,60,1920,260,2160,160 C2400,60,2640,260,2880,160 V320 H0 V0 Z"
         ></path>
       </svg>

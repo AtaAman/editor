@@ -1,68 +1,40 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
-import "./index.css";
 import {
   Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
+import App from "./App.jsx";
+import "./index.css";
 import Home from "./pages/Home.jsx";
-import Lead from "./components/Services/Lead.jsx";
-import Project from "./components/Services/Project.jsx";
-import Proposal from "./components/Services/Proposal.jsx";
-import Editor from "./components/Services/Tasks.jsx";
 import Login from "./components/Login/Login.jsx";
 import Register from "./components/Register/Register.jsx";
-import Profile from "./components/Profile/Profile.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import PrivateRoute from "./components/PrivateRoutes/PrivateRoutes.jsx";
-// import AdminRoute from "./components/AdminRoute/AdminRotes.jsx";
+import DashboardLayout from "./layouts/DashboardLayout.jsx";
+
+import Team from "./components/Dashboard/Team.jsx";
+import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import Leads from "./components/Dashboard/Leads.jsx";
+import TrackLeads from "./components/Dashboard/TrackLeads.jsx";
+import Profile from "./components/Dashboard/Profile.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="/" element={<Home />} />
-      <Route path="/home" element={<Home />} />
+      {/* Home route */}
+      <Route index element={<Home />} />
+      <Route path="home" element={<Home />} />
+
+      {/* Auth routes (Public) */}
+      <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
 
       {/* Private Routes */}
       <Route
-        path="/lead"
-        element={
-          <PrivateRoute>
-            <Lead />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/project"
-        element={
-          <PrivateRoute>
-            <Project />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/task"
-        element={
-          <PrivateRoute>
-            <Editor />
-          </PrivateRoute>
-        }
-      />
-
-      <Route
-        path="/proposal"
-        element={
-          <PrivateRoute>
-            <Proposal />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/profile"
+        path="profile"
         element={
           <PrivateRoute>
             <Profile />
@@ -70,11 +42,23 @@ const router = createBrowserRouter(
         }
       />
 
-      
+      Dashboard Routes
+      <Route
+        path="dashboard"
+        element={
+          <PrivateRoute>
+            <DashboardLayout />
+          </PrivateRoute>
+        }
+      >
+        <Route index element={<Dashboard />} />
+        <Route path="team" element={<Team />} />
+        <Route path="leads" element={<Leads />} />
+        <Route path="tracking" element={<TrackLeads />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
 
-      {/* Public Routes */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/Register" element={<Register />} />
+      {/* Catch-All (404) */}
       <Route path="*" element={<NotFound />} />
     </Route>
   )

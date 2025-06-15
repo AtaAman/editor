@@ -1,195 +1,56 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../../store/useAuthState";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user, getCurrentUser, updateAccountDetails, isLoggedIn, setUser } =
-    useUserStore();
-
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    companyName: "",
-    companyAddress: "",
-    companyPhone: "",
-    companyEmail: "",
-    companyGst: "",
-    companyPoc: "",
-    companyWebsite: "",
-  });
+  const { user, getCurrentUser, isLoggedIn } = useUserStore();
 
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/login");
-    } else {
-      const fetchUserData = async () => {
-        if (!user) {
-          await getCurrentUser();
-        }
-      };
-
-      fetchUserData();
+    } else if (!user) {
+      getCurrentUser();
     }
   }, [isLoggedIn, user, getCurrentUser, navigate]);
 
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        fullName: user.fullName || "",
-        email: user.email || "",
-        companyName: user.company?.name || "",
-        companyAddress: user.company?.address || "",
-        companyPhone: user.company?.phone || "",
-        companyEmail: user.company?.email || "",
-        companyGst: user.company?.gst || "",
-        companyPoc: user.company?.poc || "",
-        companyWebsite: user.company?.website || "",
-      });
-    }
-  }, [user]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const updatedUser = await updateAccountDetails(
-        formData.fullName,
-        formData.email,
-        formData.companyName,
-        formData.companyAddress,
-        formData.companyPhone,
-        formData.companyEmail,
-        formData.companyGst,
-        formData.companyPoc,
-        formData.companyWebsite
-      );
-
-      setUser(updatedUser);
-      setIsEditing(false);
-    } catch (error) {
-      console.error("Error updating profile", error);
-    }
-  };
+  if (!user) {
+    return <p>Loading profile...</p>;
+  }
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Profile</h1>
-      {isEditing ? (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleInputChange}
-            placeholder="Full Name"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+      <div className="bg-white p-4 border border-gray-300 rounded-md shadow-md space-y-4">
+        {user.companyLogo?.url && (
+          <img
+            src={user.companyLogo.url}
+            alt="Company Logo"
+            className="w-24 h-24 rounded-md"
           />
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="Email"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <input
-            type="text"
-            name="companyName"
-            value={formData.companyName}
-            onChange={handleInputChange}
-            placeholder="Company Name"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <input
-            type="text"
-            name="companyAddress"
-            value={formData.companyAddress}
-            onChange={handleInputChange}
-            placeholder="Company Address"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <input
-            type="text"
-            name="companyPhone"
-            value={formData.companyPhone}
-            onChange={handleInputChange}
-            placeholder="Company Phone"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <input
-            type="email"
-            name="companyEmail"
-            value={formData.companyEmail}
-            onChange={handleInputChange}
-            placeholder="Company Email"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <input
-            type="text"
-            name="companyGst"
-            value={formData.companyGst}
-            onChange={handleInputChange}
-            placeholder="Company GST"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <input
-            type="text"
-            name="companyPoc"
-            value={formData.companyPoc}
-            onChange={handleInputChange}
-            placeholder="Point of Contact"
-            required
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-          />
-          <div className="flex space-x-2">
-            <button
-              type="submit"
-              className="w-full bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="w-full bg-gray-300 text-gray-800 p-2 rounded-md hover:bg-gray-400 transition"
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      ) : (
-        <div className="bg-white p-4 border border-gray-300 rounded-md shadow-md space-y-4">
-          <h2 className="text-xl font-semibold">{user?.fullName}</h2>
-          <p className="text-gray-600">Email: {user?.email}</p>
-          <p className="text-gray-600">Company: {user?.company?.name}</p>
-          <p className="text-gray-600">Address: {user?.company?.address}</p>
-          <p className="text-gray-600">Phone: {user?.company?.phone}</p>
-          <p className="text-gray-600">Email: {user?.company?.email}</p>
-          <p className="text-gray-600">GST: {user?.company?.gst}</p>
-          <p className="text-gray-600">POC: {user?.company?.poc}</p>
-          <p className="text-gray-600">Website: {user?.company?.website}</p>
-          <button
-            onClick={() => setIsEditing(true)}
-            className="bg-blue-600 text-white p-2 rounded-md hover:bg-blue-700 transition"
-          >
-            Edit Profile
-          </button>
-        </div>
-      )}
+        )}
+        <p className="text-gray-600 font-semibold">Email: {user.email}</p>
+        <p className="text-gray-600">Company Name: {user.companyName}</p>
+        <p className="text-gray-600">Company ID: {user.companyIdentifier}</p>
+        <p className="text-gray-600">Location: {user.companyLocation}</p>
+        <p className="text-gray-600">Leads Per Month: {user.leadsPerMonth}</p>
+        <p className="text-gray-600">Subscription Plan: {user.subscriptionPlan}</p>
+        <p className="text-gray-600">
+          Subscription Amount: ${user.subscriptionAmountPerMonth} / {user.subscriptionFrequency}
+        </p>
+        <p className="text-gray-600">
+          Subscription Start Date: {new Date(user.subscriptionStartDate).toLocaleDateString()}
+        </p>
+        <p className="text-gray-600">
+          Subscription End Date: {new Date(user.subscriptionEndDate).toLocaleDateString()}
+        </p>
+        <p className="text-gray-600">
+          Account Created: {new Date(user.createdAt).toLocaleDateString()}
+        </p>
+        <p className="text-gray-600">
+          Last Updated: {new Date(user.updatedAt).toLocaleDateString()}
+        </p>
+      </div>
     </div>
   );
 };
